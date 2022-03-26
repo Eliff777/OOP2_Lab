@@ -16,5 +16,17 @@ namespace WindowsFormsApp_oop2_Lab
         {
             InitializeComponent();
         }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+            Form3 form3 = new Form3();
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form3 form3 = new Form3();
+            this.Hide();
+            form3.Show();
+        }
     }
 }
