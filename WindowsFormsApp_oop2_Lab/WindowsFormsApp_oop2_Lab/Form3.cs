@@ -16,5 +16,10 @@ namespace WindowsFormsApp_oop2_Lab
         {
             InitializeComponent();
         }
+
+        private void save_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
