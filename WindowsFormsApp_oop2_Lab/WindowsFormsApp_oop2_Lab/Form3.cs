@@ -25,7 +25,6 @@ namespace WindowsFormsApp_oop2_Lab
             File.Delete(myfile1);
             Form2 form2 = new Form2();
             this.Hide();
-            form2.Show();
             using (StreamWriter w = File.AppendText("log.txt"))
             {
                 if (Square.Checked == true)
