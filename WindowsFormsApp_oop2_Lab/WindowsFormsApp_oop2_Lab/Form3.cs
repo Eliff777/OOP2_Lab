@@ -58,6 +58,18 @@ namespace WindowsFormsApp_oop2_Lab
                     w.WriteLine(input1.Text);
                     w.WriteLine(input2.Text);
                 }
+                if (red.Checked == true)
+                {
+                    w.WriteLine("red");
+                }
+                if (blue.Checked == true)
+                {
+                    w.WriteLine("blue");
+                }
+                if (yellow.Checked == true)
+                {
+                    w.WriteLine("yellow");
+                }
                 w.Close();
             }
         }
@@ -129,7 +141,18 @@ namespace WindowsFormsApp_oop2_Lab
                             Custom.Checked = true;
                             input1.Text = sr.ReadLine();
                             input2.Text = sr.ReadLine();
-                            break;
+                        }
+                        if (satir == "red")
+                        {
+                            red.Checked = true;
+                        }
+                        if (satir == "blue")
+                        {
+                            blue.Checked = true;
+                        }
+                        if (satir == "yellow")
+                        {
+                            yellow.Checked = true;
                         }
                     }
                 }

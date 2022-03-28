@@ -40,6 +40,10 @@
             this.input1 = new System.Windows.Forms.TextBox();
             this.input2 = new System.Windows.Forms.TextBox();
             this.save = new System.Windows.Forms.Button();
+            this.colour = new System.Windows.Forms.Label();
+            this.red = new System.Windows.Forms.CheckBox();
+            this.blue = new System.Windows.Forms.CheckBox();
+            this.yellow = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // Shape
@@ -166,7 +170,7 @@
             // 
             this.save.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.save.Font = new System.Drawing.Font("Lucida Bright", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.save.Location = new System.Drawing.Point(455, 186);
+            this.save.Location = new System.Drawing.Point(541, 204);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(86, 40);
             this.save.TabIndex = 11;
@@ -174,11 +178,54 @@
             this.save.UseVisualStyleBackColor = false;
             this.save.Click += new System.EventHandler(this.save_Click);
             // 
+            // colour
+            // 
+            this.colour.AutoSize = true;
+            this.colour.Location = new System.Drawing.Point(505, 41);
+            this.colour.Name = "colour";
+            this.colour.Size = new System.Drawing.Size(47, 17);
+            this.colour.TabIndex = 12;
+            this.colour.Text = "colour";
+            // 
+            // red
+            // 
+            this.red.AutoSize = true;
+            this.red.Location = new System.Drawing.Point(508, 71);
+            this.red.Name = "red";
+            this.red.Size = new System.Drawing.Size(51, 21);
+            this.red.TabIndex = 13;
+            this.red.Text = "red";
+            this.red.UseVisualStyleBackColor = true;
+            // 
+            // blue
+            // 
+            this.blue.AutoSize = true;
+            this.blue.Location = new System.Drawing.Point(508, 104);
+            this.blue.Name = "blue";
+            this.blue.Size = new System.Drawing.Size(57, 21);
+            this.blue.TabIndex = 14;
+            this.blue.Text = "blue";
+            this.blue.UseVisualStyleBackColor = true;
+            // 
+            // yellow
+            // 
+            this.yellow.AutoSize = true;
+            this.yellow.Location = new System.Drawing.Point(508, 134);
+            this.yellow.Name = "yellow";
+            this.yellow.Size = new System.Drawing.Size(68, 21);
+            this.yellow.TabIndex = 15;
+            this.yellow.Text = "yellow";
+            this.yellow.UseVisualStyleBackColor = true;
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.yellow);
+            this.Controls.Add(this.blue);
+            this.Controls.Add(this.red);
+            this.Controls.Add(this.colour);
             this.Controls.Add(this.save);
             this.Controls.Add(this.input2);
             this.Controls.Add(this.input1);
@@ -193,6 +240,7 @@
             this.Controls.Add(this.Shape);
             this.Name = "Form3";
             this.Text = "Form3";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.Form3_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -213,5 +261,9 @@
         private System.Windows.Forms.TextBox input1;
         private System.Windows.Forms.TextBox input2;
         private System.Windows.Forms.Button save;
+        private System.Windows.Forms.Label colour;
+        private System.Windows.Forms.CheckBox red;
+        private System.Windows.Forms.CheckBox blue;
+        private System.Windows.Forms.CheckBox yellow;
     }
 }
