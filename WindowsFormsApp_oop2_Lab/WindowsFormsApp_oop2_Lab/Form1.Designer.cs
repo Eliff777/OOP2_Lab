@@ -33,7 +33,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.kullanıcıadı = new System.Windows.Forms.TextBox();
             this.şifre = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.enter = new System.Windows.Forms.Button();
+            this.signup = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -84,23 +85,34 @@
             this.şifre.Size = new System.Drawing.Size(100, 22);
             this.şifre.TabIndex = 4;
             // 
-            // button1
+            // enter
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.button1.Location = new System.Drawing.Point(269, 174);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(93, 37);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Enter";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.enter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.enter.Location = new System.Drawing.Point(269, 174);
+            this.enter.Name = "enter";
+            this.enter.Size = new System.Drawing.Size(93, 37);
+            this.enter.TabIndex = 6;
+            this.enter.Text = "Enter";
+            this.enter.UseVisualStyleBackColor = false;
+            this.enter.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // signup
+            // 
+            this.signup.Location = new System.Drawing.Point(430, 174);
+            this.signup.Name = "signup";
+            this.signup.Size = new System.Drawing.Size(94, 37);
+            this.signup.TabIndex = 7;
+            this.signup.Text = "signup";
+            this.signup.UseVisualStyleBackColor = true;
+            this.signup.Click += new System.EventHandler(this.signup_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.signup);
+            this.Controls.Add(this.enter);
             this.Controls.Add(this.şifre);
             this.Controls.Add(this.kullanıcıadı);
             this.Controls.Add(this.label3);
@@ -108,6 +120,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -120,7 +133,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox kullanıcıadı;
         private System.Windows.Forms.TextBox şifre;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button enter;
+        private System.Windows.Forms.Button signup;
     }
 }
 

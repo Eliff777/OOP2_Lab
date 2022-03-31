@@ -27,5 +27,11 @@ namespace WindowsFormsApp_oop2_Lab
             Form3 form3 = new Form3();
             form3.Show();
         }
+
+        private void profileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            profile pr = new profile();
+            pr.Show();
+        }
     }
 }
