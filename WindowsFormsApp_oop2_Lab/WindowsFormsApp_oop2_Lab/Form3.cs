@@ -21,22 +21,16 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void save_Click(object sender, EventArgs e)
         {
-            String myfile1 = @"log.txt";
-            File.Delete(myfile1);
-            Form2 form2 = new Form2();
-            this.Hide();
-            using (StreamWriter w = File.AppendText("log.txt"))
-            if (input1.Text == "" || input2.Text == "")
+            if (Custom.Checked==true&&(input1.Text == "" || input2.Text == ""))
             {
                 MessageBox.Show("Enter the custom values.");
             }
             else
             {
-                String myfile1 = @"log.txt";
+               String myfile1 = @"log.txt";
                 File.Delete(myfile1);
                 Form2 form2 = new Form2();
                 this.Hide();
-                form2.Show();
                 using (StreamWriter w = File.AppendText("log.txt"))
                 {
 
@@ -71,21 +65,21 @@ namespace WindowsFormsApp_oop2_Lab
                         w.WriteLine(input2.Text);
 
                     }
+
+                    if (red.Checked == true)
+                    {
+                        w.WriteLine("red");
+                    }
+                    if (blue.Checked == true)
+                    {
+                        w.WriteLine("blue");
+                    }
+                    if (yellow.Checked == true)
+                    {
+                        w.WriteLine("yellow");
+                    }
                     w.Close();
                 }
-                if (red.Checked == true)
-                {
-                    w.WriteLine("red");
-                }
-                if (blue.Checked == true)
-                {
-                    w.WriteLine("blue");
-                }
-                if (yellow.Checked == true)
-                {
-                    w.WriteLine("yellow");
-                }
-                w.Close();
             }
         }
 
