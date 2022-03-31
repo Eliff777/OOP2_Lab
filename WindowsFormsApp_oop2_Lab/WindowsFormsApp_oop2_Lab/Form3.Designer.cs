@@ -44,6 +44,7 @@
             this.red = new System.Windows.Forms.CheckBox();
             this.blue = new System.Windows.Forms.CheckBox();
             this.yellow = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Shape
@@ -216,6 +217,13 @@
             this.yellow.TabIndex = 15;
             this.yellow.Text = "yellow";
             this.yellow.UseVisualStyleBackColor = true;
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(224, 259);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 17);
+            this.label1.TabIndex = 12;
             // 
             // Form3
             // 
@@ -226,6 +234,7 @@
             this.Controls.Add(this.blue);
             this.Controls.Add(this.red);
             this.Controls.Add(this.colour);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.save);
             this.Controls.Add(this.input2);
             this.Controls.Add(this.input1);
@@ -265,5 +274,6 @@
         private System.Windows.Forms.CheckBox red;
         private System.Windows.Forms.CheckBox blue;
         private System.Windows.Forms.CheckBox yellow;
+        private System.Windows.Forms.Label label1;
     }
 }

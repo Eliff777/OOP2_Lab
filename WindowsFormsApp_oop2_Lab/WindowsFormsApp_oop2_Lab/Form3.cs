@@ -26,36 +26,52 @@ namespace WindowsFormsApp_oop2_Lab
             Form2 form2 = new Form2();
             this.Hide();
             using (StreamWriter w = File.AppendText("log.txt"))
+            if (input1.Text == "" || input2.Text == "")
             {
-                if (Square.Checked == true)
+                MessageBox.Show("Enter the custom values.");
+            }
+            else
+            {
+                String myfile1 = @"log.txt";
+                File.Delete(myfile1);
+                Form2 form2 = new Form2();
+                this.Hide();
+                form2.Show();
+                using (StreamWriter w = File.AppendText("log.txt"))
                 {
-                    w.WriteLine("Square");
-                }
-                if (Triangle.Checked == true)
-                {
-                    w.WriteLine("Triangle");
-                }
-                if (Round.Checked == true)
-                {
-                    w.WriteLine("Round");
-                }
-                if (Easy.Checked == true)
-                {
-                    w.WriteLine("Easy");
-                }
-                if (Normal.Checked == true)
-                {
-                    w.WriteLine("Normal");
-                }
-                if (Hard.Checked == true)
-                {
-                    w.WriteLine("Hard");
-                }
-                if (Custom.Checked == true)
-                {
-                    w.WriteLine("Custom");
-                    w.WriteLine(input1.Text);
-                    w.WriteLine(input2.Text);
+
+                    if (Square.Checked == true)
+                    {
+                        w.WriteLine("Square");
+                    }
+                    if (Triangle.Checked == true)
+                    {
+                        w.WriteLine("Triangle");
+                    }
+                    if (Round.Checked == true)
+                    {
+                        w.WriteLine("Round");
+                    }
+                    if (Easy.Checked == true)
+                    {
+                        w.WriteLine("Easy");
+                    }
+                    if (Normal.Checked == true)
+                    {
+                        w.WriteLine("Normal");
+                    }
+                    if (Hard.Checked == true)
+                    {
+                        w.WriteLine("Hard");
+                    }
+                    if (Custom.Checked == true)
+                    {
+                        w.WriteLine("Custom");
+                        w.WriteLine(input1.Text);
+                        w.WriteLine(input2.Text);
+
+                    }
+                    w.Close();
                 }
                 if (red.Checked == true)
                 {
