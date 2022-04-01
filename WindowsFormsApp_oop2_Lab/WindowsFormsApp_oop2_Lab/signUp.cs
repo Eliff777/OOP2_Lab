@@ -22,7 +22,7 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void save_signup_Click(object sender, EventArgs e)
         {
-            bool check = false;
+            bool check = false; //kullanıcı adı alınmışsa true olur
             XmlDocument doc = new XmlDocument();
             doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
 
@@ -71,12 +71,27 @@ namespace WindowsFormsApp_oop2_Lab
 
                 doc.DocumentElement.AppendChild(person);
                 doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
+                this.Hide();
+                Form1 form1 = new Form1();
+                form1.Show();
             }
-            
+            else
+            {
+                string message = "This username has been taken.";
+                string title = "Warning!";
+                MessageBox.Show(message, title);
+            }
+        }
 
+        private void cancel_Click(object sender, EventArgs e)
+        {
             this.Hide();
-            Form1 form1 = new Form1();
-            form1.Show();
+            Form1 f1 = new Form1();
+            f1.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
 
         }
     }

@@ -28,7 +28,6 @@ namespace WindowsFormsApp_oop2_Lab
             foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
             {
                 userName_.Text = node.SelectSingleNode("username").InnerText;
-                password_.Text = node.SelectSingleNode("password").InnerText;
                 nameSurname_.Text = node.SelectSingleNode("Name-Surname").InnerText;
                 phoneNumber_.Text = node.SelectSingleNode("PhoneNumber").InnerText;
                 address_.Text = node.SelectSingleNode("Address").InnerText;
@@ -45,70 +44,83 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void update_Click(object sender, EventArgs e)
         {
+            bool check = false; //eğer eski şifreyi doğru girdiyse true olur.
             string kullanıcıAdı = null;
             XmlDocument d = new XmlDocument();
             d.Load(Directory.GetCurrentDirectory() + "//user.xml");
             foreach (XmlNode node in d.SelectNodes("Kullanıcılar/person"))
             {
                 kullanıcıAdı = node.SelectSingleNode("username").InnerText;
-
-                node.SelectSingleNode("password").InnerText = password_.Text;
-                node.SelectSingleNode("Name-Surname").InnerText = nameSurname_.Text;
-                node.SelectSingleNode("PhoneNumber").InnerText = phoneNumber_.Text;
-                node.SelectSingleNode("Address").InnerText= address_.Text;
-                node.SelectSingleNode("City").InnerText = city_.Text;
-                node.SelectSingleNode("Country").InnerText= country_.Text;
-                node.SelectSingleNode("E-mail").InnerText = email_.Text;
-                d.Save(Directory.GetCurrentDirectory() + "//user.xml");
-            }
-                
-
-            this.Hide();
-            XmlDocument doc = new XmlDocument();
-            doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
-            foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
-            {
-                if (kullanıcıAdı == node.SelectSingleNode("username").InnerText)
+                if (oldPassword_.Text == node.SelectSingleNode("password").InnerText)
                 {
-                    node.ParentNode.RemoveChild(node);
-                    doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
+                    check = true;
+                    node.SelectSingleNode("password").InnerText = password_.Text;
+                    node.SelectSingleNode("Name-Surname").InnerText = nameSurname_.Text;
+                    node.SelectSingleNode("PhoneNumber").InnerText = phoneNumber_.Text;
+                    node.SelectSingleNode("Address").InnerText = address_.Text;
+                    node.SelectSingleNode("City").InnerText = city_.Text;
+                    node.SelectSingleNode("Country").InnerText = country_.Text;
+                    node.SelectSingleNode("E-mail").InnerText = email_.Text;
+                    d.Save(Directory.GetCurrentDirectory() + "//user.xml");
+                }
+                else
+                {
+                    string message = "The password is incorrect!";
+                    string title = "Warning!";
+                    MessageBox.Show(message, title);
+                }
 
+            }
 
-                    XmlNode person = doc.CreateElement("person");
-                    XmlNode username = doc.CreateElement("username");
-                    username.InnerText = userName_.Text;
-                    person.AppendChild(username);
+            if (check == true)
+            {
+                this.Hide();
+                XmlDocument doc = new XmlDocument();
+                doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
+                foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
+                {
+                    if (kullanıcıAdı == node.SelectSingleNode("username").InnerText)
+                    {
+                        node.ParentNode.RemoveChild(node);
+                        doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
+                        
+                        XmlNode person = doc.CreateElement("person");
 
-                    XmlNode password = doc.CreateElement("password");
-                    password.InnerText = password_.Text;
-                    person.AppendChild(password);
+                        XmlNode username = doc.CreateElement("username");
+                        username.InnerText = userName_.Text;
+                        person.AppendChild(username);
 
-                    XmlNode NameSurname = doc.CreateElement("Name-Surname");
-                    NameSurname.InnerText = nameSurname_.Text;
-                    person.AppendChild(NameSurname);
+                        XmlNode password = doc.CreateElement("password");
+                        password.InnerText = password_.Text;
+                        person.AppendChild(password);
 
-                    XmlNode PhoneNumber = doc.CreateElement("PhoneNumber");
-                    PhoneNumber.InnerText = phoneNumber_.Text;
-                    person.AppendChild(PhoneNumber);
+                        XmlNode NameSurname = doc.CreateElement("Name-Surname");
+                        NameSurname.InnerText = nameSurname_.Text;
+                        person.AppendChild(NameSurname);
 
-                    XmlNode Address = doc.CreateElement("Address");
-                    Address.InnerText = address_.Text;
-                    person.AppendChild(Address);
+                        XmlNode PhoneNumber = doc.CreateElement("PhoneNumber");
+                        PhoneNumber.InnerText = phoneNumber_.Text;
+                        person.AppendChild(PhoneNumber);
 
-                    XmlNode City = doc.CreateElement("City");
-                    City.InnerText = city_.Text;
-                    person.AppendChild(City);
+                        XmlNode Address = doc.CreateElement("Address");
+                        Address.InnerText = address_.Text;
+                        person.AppendChild(Address);
 
-                    XmlNode Country = doc.CreateElement("Country");
-                    Country.InnerText = country_.Text;
-                    person.AppendChild(Country);
+                        XmlNode City = doc.CreateElement("City");
+                        City.InnerText = city_.Text;
+                        person.AppendChild(City);
 
-                    XmlNode Email = doc.CreateElement("E-mail");
-                    Email.InnerText = email_.Text;
-                    person.AppendChild(Email);
+                        XmlNode Country = doc.CreateElement("Country");
+                        Country.InnerText = country_.Text;
+                        person.AppendChild(Country);
 
-                    doc.DocumentElement.AppendChild(person);
-                    doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
+                        XmlNode Email = doc.CreateElement("E-mail");
+                        Email.InnerText = email_.Text;
+                        person.AppendChild(Email);
+
+                        doc.DocumentElement.AppendChild(person);
+                        doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
+                    }
                 }
             }
         }
@@ -117,5 +129,57 @@ namespace WindowsFormsApp_oop2_Lab
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string ka = null;
+            bool chk = false;//eğer şifre doğruysa true olur sil demek.
+            XmlDocument d = new XmlDocument();
+            d.Load(Directory.GetCurrentDirectory() + "//user.xml");
+            foreach (XmlNode node in d.SelectNodes("Kullanıcılar/person"))
+            {
+                if (oldPassword_.Text == node.SelectSingleNode("password").InnerText)
+                {
+                    ka = node.SelectSingleNode("username").InnerText;
+                    chk = true;
+                    node.ParentNode.RemoveChild(node);
+                    d.Save(Directory.GetCurrentDirectory() + "//user.xml");
+                }
+                else
+                {
+                    string message = "The password is incorrect!";
+                    string title = "Warning!";
+                    MessageBox.Show(message, title);
+                }
+            }
+            
+            if (chk == true)
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
+
+                foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
+                {
+                    if (ka == node.SelectSingleNode("username").InnerText)
+                    {
+                        node.ParentNode.RemoveChild(node);
+                        doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
+                        List<Form> openForms = new List<Form>();
+
+                        foreach (Form f in Application.OpenForms)
+                            openForms.Add(f);
+
+                        foreach (Form f in openForms)
+                        {
+                            if (f.Name == "Form1")
+                                f.Show();
+                            else
+                                f.Close();
+                        }
+                    }
+                }
+            }
+        }
     }
 }
+

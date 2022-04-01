@@ -45,6 +45,7 @@
             this.country_ = new System.Windows.Forms.TextBox();
             this.city_ = new System.Windows.Forms.TextBox();
             this.save_signup = new System.Windows.Forms.Button();
+            this.cancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Username_lb
@@ -185,19 +186,32 @@
             // 
             // save_signup
             // 
-            this.save_signup.Location = new System.Drawing.Point(311, 366);
+            this.save_signup.Font = new System.Drawing.Font("Lucida Bright", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.save_signup.Location = new System.Drawing.Point(398, 360);
             this.save_signup.Name = "save_signup";
-            this.save_signup.Size = new System.Drawing.Size(75, 23);
+            this.save_signup.Size = new System.Drawing.Size(92, 51);
             this.save_signup.TabIndex = 16;
             this.save_signup.Text = "save";
             this.save_signup.UseVisualStyleBackColor = true;
             this.save_signup.Click += new System.EventHandler(this.save_signup_Click);
+            // 
+            // cancel
+            // 
+            this.cancel.Font = new System.Drawing.Font("Lucida Bright", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cancel.Location = new System.Drawing.Point(272, 360);
+            this.cancel.Name = "cancel";
+            this.cancel.Size = new System.Drawing.Size(91, 51);
+            this.cancel.TabIndex = 17;
+            this.cancel.Text = "cancel";
+            this.cancel.UseVisualStyleBackColor = true;
+            this.cancel.Click += new System.EventHandler(this.cancel_Click);
             // 
             // signUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.cancel);
             this.Controls.Add(this.save_signup);
             this.Controls.Add(this.city_);
             this.Controls.Add(this.country_);
@@ -241,5 +255,6 @@
         private System.Windows.Forms.TextBox country_;
         private System.Windows.Forms.TextBox city_;
         private System.Windows.Forms.Button save_signup;
+        private System.Windows.Forms.Button cancel;
     }
 }
