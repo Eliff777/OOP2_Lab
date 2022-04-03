@@ -10,6 +10,7 @@ using System.Xml;
 using System.IO;
 using System.Xml.Linq;
 using System.Windows.Forms;
+using System.Security.Cryptography;
 
 namespace WindowsFormsApp_oop2_Lab
 {
@@ -27,13 +28,19 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void button1_Click(object sender, EventArgs e)
         {
+            SHA256 sha256Encrypting = new SHA256CryptoServiceProvider();
+            string sifrelenecek = şifre.Text;
+            SHA256Managed sha256 = new SHA256Managed();
+            byte[] bitDizisi = System.Text.Encoding.UTF8.GetBytes(sifrelenecek);
+            string sifreliVeri = Convert.ToBase64String(sha256.ComputeHash(bitDizisi));
+
             XmlDocument doc = new XmlDocument();
             doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
             foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
             {
                 if (node.SelectSingleNode("username").InnerText == kullanıcıadı.Text)
                 {
-                    if (node.SelectSingleNode("password").InnerText == şifre.Text)
+                    if (node.SelectSingleNode("password").InnerText == sifreliVeri)
                     {
                         this.Hide();
                         Form2 form2 = new Form2();
@@ -48,6 +55,9 @@ namespace WindowsFormsApp_oop2_Lab
                                                new XElement("City", node.SelectSingleNode("City").InnerText),
                                                new XElement("Country", node.SelectSingleNode("Country").InnerText),
                                                new XElement("E-mail", node.SelectSingleNode("E-mail").InnerText))));
+
+                       
+
                         d.Save(Directory.GetCurrentDirectory() + "//user.xml");
                     }
                 }

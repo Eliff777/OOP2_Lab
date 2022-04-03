@@ -10,6 +10,7 @@ using System.Xml;
 using System.IO;
 using System.Xml.Linq;
 using System.Windows.Forms;
+using System.Security.Cryptography;
 
 namespace WindowsFormsApp_oop2_Lab
 {
@@ -44,6 +45,7 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void update_Click(object sender, EventArgs e)
         {
+
             bool check = false; //eğer eski şifreyi doğru girdiyse true olur.
             string kullanıcıAdı = null;
             XmlDocument d = new XmlDocument();
@@ -74,6 +76,11 @@ namespace WindowsFormsApp_oop2_Lab
 
             if (check == true)
             {
+                string sifrelenecek = password_.Text;
+                SHA256Managed sha256 = new SHA256Managed();
+                byte[] bitDizisi = System.Text.Encoding.UTF8.GetBytes(sifrelenecek);
+                string sifreliVeri = Convert.ToBase64String(sha256.ComputeHash(bitDizisi));
+
                 this.Hide();
                 XmlDocument doc = new XmlDocument();
                 doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
@@ -91,7 +98,7 @@ namespace WindowsFormsApp_oop2_Lab
                         person.AppendChild(username);
 
                         XmlNode password = doc.CreateElement("password");
-                        password.InnerText = password_.Text;
+                        password.InnerText = sifreliVeri;
                         person.AppendChild(password);
 
                         XmlNode NameSurname = doc.CreateElement("Name-Surname");
@@ -179,6 +186,11 @@ namespace WindowsFormsApp_oop2_Lab
                     }
                 }
             }
+        }
+
+        private void oldPassword__TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

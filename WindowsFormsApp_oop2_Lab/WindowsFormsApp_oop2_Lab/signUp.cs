@@ -10,6 +10,7 @@ using System.Xml;
 using System.IO;
 using System.Xml.Linq;
 using System.Windows.Forms;
+using System.Security.Cryptography;
 
 namespace WindowsFormsApp_oop2_Lab
 {
@@ -22,7 +23,13 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void save_signup_Click(object sender, EventArgs e)
         {
-            bool check = false; //kullanıcı adı alınmışsa true olur
+            
+                string sifrelenecek = password_.Text;
+                SHA256Managed sha256 = new SHA256Managed();
+                byte[] bitDizisi = System.Text.Encoding.UTF8.GetBytes(sifrelenecek);
+                string sifreliVeri = Convert.ToBase64String(sha256.ComputeHash(bitDizisi));
+
+                bool check = false; //kullanıcı adı alınmışsa true olur
             XmlDocument doc = new XmlDocument();
             doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
 
@@ -41,7 +48,7 @@ namespace WindowsFormsApp_oop2_Lab
                 person.AppendChild(username);
 
                 XmlNode password = doc.CreateElement("password");
-                password.InnerText = password_.Text;
+                password.InnerText = sifreliVeri;
                 person.AppendChild(password);
 
                 XmlNode NameSurname = doc.CreateElement("Name-Surname");

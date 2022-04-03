@@ -221,6 +221,7 @@
             this.oldPassword_.PasswordChar = '*';
             this.oldPassword_.Size = new System.Drawing.Size(100, 22);
             this.oldPassword_.TabIndex = 35;
+            this.oldPassword_.TextChanged += new System.EventHandler(this.oldPassword__TextChanged);
             // 
             // oldPassword
             // 
