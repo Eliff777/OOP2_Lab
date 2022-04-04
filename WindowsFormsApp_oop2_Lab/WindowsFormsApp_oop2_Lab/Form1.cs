@@ -27,7 +27,16 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void button1_Click(object sender, EventArgs e)
         {
-            XmlDocument doc = new XmlDocument();
+            String myfile1 = @"log1.txt";
+            File.Delete(myfile1);
+            using (StreamWriter w = File.AppendText("log1.txt"))
+            {
+                w.WriteLine(kullanıcıadı.Text);
+               
+            }
+            
+
+                XmlDocument doc = new XmlDocument();
             doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
             foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
             {
@@ -60,7 +69,21 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            string curFile = @"document.xml";
+            List<string> satirlarList = new List<string>();
+            using (StreamReader sr = new StreamReader("log1.txt")) 
+            {
+                string satir;
+                while ((satir = sr.ReadLine()) != null)
+                {
+                    int check = 0;
+                    if(check==0)
+                    {
+                        kullanıcıadı.Text = satir;
+                    }
+                    
+                }
+            }
+                string curFile = @"document.xml";
             if (File.Exists(curFile) == false)
             {
                 XDocument d = new XDocument(new XElement("Kullanıcılar",
@@ -82,6 +105,24 @@ namespace WindowsFormsApp_oop2_Lab
             signUp s = new signUp();
             this.Hide();
             s.Show();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                şifre.PasswordChar = '\0';
+            }
+            else
+            {
+                şifre.PasswordChar = '*';
+            }
+        }
+
+        private void kullanıcıadı_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar)
+                && !char.IsSeparator(e.KeyChar);
         }
     }
 }
