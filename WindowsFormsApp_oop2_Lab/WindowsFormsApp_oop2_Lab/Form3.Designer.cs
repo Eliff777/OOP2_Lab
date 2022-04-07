@@ -217,6 +217,7 @@
             this.yellow.TabIndex = 15;
             this.yellow.Text = "yellow";
             this.yellow.UseVisualStyleBackColor = true;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
