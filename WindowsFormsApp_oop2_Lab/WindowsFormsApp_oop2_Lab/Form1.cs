@@ -27,33 +27,42 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void button1_Click(object sender, EventArgs e)
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
-            foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
+            if (kullanıcıadı.Text == "admin" && şifre.Text == "admin")
             {
-                if (node.SelectSingleNode("username").InnerText == kullanıcıadı.Text)
+                manager m = new manager();
+                m.Show();
+                this.Hide();
+            }
+            else
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
+                foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
                 {
-                    if (node.SelectSingleNode("password").InnerText == şifre.Text)
+                    if (node.SelectSingleNode("username").InnerText == kullanıcıadı.Text)
                     {
-                        this.Hide();
-                        Form2 form2 = new Form2();
-                        form2.Show();
-                        XDocument d = new XDocument(new XElement("Kullanıcılar",
-                                           new XElement("person",
-                                               new XElement("username", node.SelectSingleNode("username").InnerText),
-                                               new XElement("password", node.SelectSingleNode("password").InnerText),
-                                               new XElement("Name-Surname", node.SelectSingleNode("Name-Surname").InnerText),
-                                               new XElement("PhoneNumber", node.SelectSingleNode("PhoneNumber").InnerText),
-                                               new XElement("Address", node.SelectSingleNode("Address").InnerText),
-                                               new XElement("City", node.SelectSingleNode("City").InnerText),
-                                               new XElement("Country", node.SelectSingleNode("Country").InnerText),
-                                               new XElement("E-mail", node.SelectSingleNode("E-mail").InnerText))));
-                        d.Save(Directory.GetCurrentDirectory() + "//user.xml");
+                        if (node.SelectSingleNode("password").InnerText == şifre.Text)
+                        {
+                            this.Hide();
+                            Form2 form2 = new Form2();
+                            form2.Show();
+                            XDocument d = new XDocument(new XElement("Kullanıcılar",
+                                               new XElement("person",
+                                                   new XElement("username", node.SelectSingleNode("username").InnerText),
+                                                   new XElement("password", node.SelectSingleNode("password").InnerText),
+                                                   new XElement("Name-Surname", node.SelectSingleNode("Name-Surname").InnerText),
+                                                   new XElement("PhoneNumber", node.SelectSingleNode("PhoneNumber").InnerText),
+                                                   new XElement("Address", node.SelectSingleNode("Address").InnerText),
+                                                   new XElement("City", node.SelectSingleNode("City").InnerText),
+                                                   new XElement("Country", node.SelectSingleNode("Country").InnerText),
+                                                   new XElement("E-mail", node.SelectSingleNode("E-mail").InnerText))));
+                            d.Save(Directory.GetCurrentDirectory() + "//user.xml");
+                        }
                     }
-                }
-                else
-                {
-                    label3.Show();
+                    else
+                    {
+                        label3.Show();
+                    }
                 }
             }
         }

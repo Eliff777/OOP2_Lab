@@ -56,7 +56,7 @@ namespace WindowsFormsApp_oop2_Lab
                     check = true;
                     node.SelectSingleNode("password").InnerText = password_.Text;
                     node.SelectSingleNode("Name-Surname").InnerText = nameSurname_.Text;
-                    node.SelectSingleNode("PhoneNumber").InnerText = phoneNumber_.Text;
+                    node.SelectSingleNode("PhoneNumber").InnerText =  phoneNumber_.Text;
                     node.SelectSingleNode("Address").InnerText = address_.Text;
                     node.SelectSingleNode("City").InnerText = city_.Text;
                     node.SelectSingleNode("Country").InnerText = country_.Text;
@@ -81,44 +81,14 @@ namespace WindowsFormsApp_oop2_Lab
                 {
                     if (kullanıcıAdı == node.SelectSingleNode("username").InnerText)
                     {
-                        node.ParentNode.RemoveChild(node);
-                        doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
+                        node.SelectSingleNode("password").InnerText = password_.Text;
+                        node.SelectSingleNode("Name-Surname").InnerText = nameSurname_.Text;
+                        node.SelectSingleNode("PhoneNumber").InnerText = phoneNumber_.Text;
+                        node.SelectSingleNode("Address").InnerText = address_.Text;
+                        node.SelectSingleNode("City").InnerText = city_.Text;
+                        node.SelectSingleNode("Country").InnerText = country_.Text;
+                        node.SelectSingleNode("E-mail").InnerText = email_.Text;
                         
-                        XmlNode person = doc.CreateElement("person");
-
-                        XmlNode username = doc.CreateElement("username");
-                        username.InnerText = userName_.Text;
-                        person.AppendChild(username);
-
-                        XmlNode password = doc.CreateElement("password");
-                        password.InnerText = password_.Text;
-                        person.AppendChild(password);
-
-                        XmlNode NameSurname = doc.CreateElement("Name-Surname");
-                        NameSurname.InnerText = nameSurname_.Text;
-                        person.AppendChild(NameSurname);
-
-                        XmlNode PhoneNumber = doc.CreateElement("PhoneNumber");
-                        PhoneNumber.InnerText = phoneNumber_.Text;
-                        person.AppendChild(PhoneNumber);
-
-                        XmlNode Address = doc.CreateElement("Address");
-                        Address.InnerText = address_.Text;
-                        person.AppendChild(Address);
-
-                        XmlNode City = doc.CreateElement("City");
-                        City.InnerText = city_.Text;
-                        person.AppendChild(City);
-
-                        XmlNode Country = doc.CreateElement("Country");
-                        Country.InnerText = country_.Text;
-                        person.AppendChild(Country);
-
-                        XmlNode Email = doc.CreateElement("E-mail");
-                        Email.InnerText = email_.Text;
-                        person.AppendChild(Email);
-
-                        doc.DocumentElement.AppendChild(person);
                         doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
                     }
                 }
