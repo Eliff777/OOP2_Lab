@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp_oop2_Lab
@@ -19,6 +20,18 @@ namespace WindowsFormsApp_oop2_Lab
         {
             InitializeComponent();
         }
+        public static string getHashSha256(string text)
+        {
+            byte[] bytes = Encoding.Unicode.GetBytes(text);
+            SHA256Managed hashstring = new SHA256Managed();
+            byte[] hash = hashstring.ComputeHash(bytes);
+            string hashString = string.Empty;
+            foreach (byte x in hash)
+            {
+                hashString += String.Format("{0:x2}", x);
+            }
+            return hashString;
+        }
 
         private void label3_Click(object sender, EventArgs e)
         {
@@ -27,6 +40,7 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string pass = getHashSha256(şifre.Text);
             if (kullanıcıadı.Text == "admin" && şifre.Text == "admin")
             {
                 manager m = new manager();
@@ -41,7 +55,7 @@ namespace WindowsFormsApp_oop2_Lab
                 {
                     if (node.SelectSingleNode("username").InnerText == kullanıcıadı.Text)
                     {
-                        if (node.SelectSingleNode("password").InnerText == şifre.Text)
+                        if (node.SelectSingleNode("password").InnerText == pass)
                         {
                             this.Hide();
                             Form2 form2 = new Form2();

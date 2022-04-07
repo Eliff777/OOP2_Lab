@@ -38,5 +38,10 @@ namespace WindowsFormsApp_oop2_Lab
         {
             this.Close();
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
