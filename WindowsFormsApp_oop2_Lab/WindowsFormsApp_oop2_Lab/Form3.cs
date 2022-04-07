@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-
 using System.Windows.Forms;
 
 namespace WindowsFormsApp_oop2_Lab
@@ -21,13 +20,14 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void save_Click(object sender, EventArgs e)
         {
-            if (Custom.Checked==true&&(input1.Text == "" || input2.Text == ""))
+
+            if (Custom.Checked == true && (input1.Text == "" || input2.Text == ""))
             {
                 MessageBox.Show("Enter the custom values.");
             }
             else
             {
-               String myfile1 = @"log.txt";
+                String myfile1 = @"log.txt";
                 File.Delete(myfile1);
                 Form2 form2 = new Form2();
                 this.Hide();
@@ -115,7 +115,8 @@ namespace WindowsFormsApp_oop2_Lab
         private void Form3_Load(object sender, EventArgs e)
         {
             List<string> satirlarList = new List<string>(); //Satırların list'e aktarıp daha sonra kullanmamız için yeni bir değişken tanımlıyoruz. 
-            try {
+            try
+            {
                 using (StreamReader sr = new StreamReader("log.txt")) //StreamReader fonksiyonu ile okunacak dosyamızı açtırıyoruz.
                 {
                     string satir; //burada okuduğunuz her satırı atamamız için gerekli değişkeni tanımlıyoruz.
@@ -167,7 +168,7 @@ namespace WindowsFormsApp_oop2_Lab
                 }
             }
             catch { }
-            
         }
     }
 }
+
