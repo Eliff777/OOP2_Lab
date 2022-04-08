@@ -46,6 +46,7 @@ namespace WindowsFormsApp_oop2_Lab
                             this.Hide();
                             Form2 form2 = new Form2();
                             form2.Show();
+                            
                             XDocument d = new XDocument(new XElement("Kullanıcılar",
                                                new XElement("person",
                                                    new XElement("username", node.SelectSingleNode("username").InnerText),
@@ -55,7 +56,18 @@ namespace WindowsFormsApp_oop2_Lab
                                                    new XElement("Address", node.SelectSingleNode("Address").InnerText),
                                                    new XElement("City", node.SelectSingleNode("City").InnerText),
                                                    new XElement("Country", node.SelectSingleNode("Country").InnerText),
-                                                   new XElement("E-mail", node.SelectSingleNode("E-mail").InnerText))));
+                                                   new XElement("E-mail", node.SelectSingleNode("E-mail").InnerText),
+                                                   new XElement("Shape",
+                                                        new XElement("Square", node.SelectSingleNode("Shape").FirstChild.InnerText),
+                                                        new XElement("Triangle", node.SelectSingleNode("Shape").FirstChild.NextSibling.InnerText),
+                                                        new XElement("Round", node.SelectSingleNode("Shape").LastChild.InnerText)),
+                                                   new XElement("Difficulty", node.SelectSingleNode("Difficulty").InnerText),
+                                                   new XElement("Colour",
+                                                        new XElement("Red", node.SelectSingleNode("Colour").FirstChild.InnerText),
+                                                        new XElement("Blue", node.SelectSingleNode("Colour").FirstChild.NextSibling.InnerText),
+                                                        new XElement("Yellow", node.SelectSingleNode("Colour").LastChild.InnerText))
+                                                  )));
+                            
                             d.Save(Directory.GetCurrentDirectory() + "//user.xml");
                         }
                     }
@@ -65,7 +77,7 @@ namespace WindowsFormsApp_oop2_Lab
                     }
                 }
             }
-        }
+         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -81,8 +93,18 @@ namespace WindowsFormsApp_oop2_Lab
                                                new XElement("Address", "Address"),
                                                new XElement("City", "City"),
                                                new XElement("Country", "Country"),
-                                               new XElement("E-mail", "E-mail"))));
-                d.Save(Directory.GetCurrentDirectory() + "//document.xml");
+                                               new XElement("E-mail", "E-mail"),
+                                               new XElement("Shape",
+                                                    new XElement("Square","false"),
+                                                    new XElement("Triangle", "false"),
+                                                    new XElement("Round", "false")),
+                                               new XElement("Difficulty", "Difficulty"),
+                                               new XElement("Colour",
+                                                    new XElement("Red", "false"),
+                                                    new XElement("Blue", "false"),
+                                                    new XElement("Yellow", "false")))));
+                
+                d.Save(Directory.GetCurrentDirectory() + @"//document.xml");
             }
         }
 
