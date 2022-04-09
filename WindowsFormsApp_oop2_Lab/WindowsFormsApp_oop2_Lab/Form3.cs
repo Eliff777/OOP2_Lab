@@ -32,6 +32,7 @@ namespace WindowsFormsApp_oop2_Lab
                 d.Load(Directory.GetCurrentDirectory() + "//user.xml");
                 XmlNode n = d.SelectSingleNode("Kullanıcılar/person/username").FirstChild;
                 //n.ToString();//username aldık burda 
+             
                 string s = null;
                 s = n.InnerText;
                 string a = null;
@@ -42,29 +43,53 @@ namespace WindowsFormsApp_oop2_Lab
                     a = nd.SelectSingleNode("username").InnerText;
                     if (s == a) 
                     {
-                        if (Square.Checked == true)
+                        if (Square.Checked == true){
                             nd.SelectSingleNode("Shape").FirstChild.InnerText = "true";
-                        else
+                            d.DocumentElement.FirstChild.SelectSingleNode("Shape").FirstChild.InnerText = "true";
+                        } 
+                        else{
                             nd.SelectSingleNode("Shape").FirstChild.InnerText = "false";
-                        if (Triangle.Checked == true)
+                            d.DocumentElement.FirstChild.SelectSingleNode("Shape").FirstChild.InnerText = "false";
+                        }
+                           
+                        if (Triangle.Checked == true){
                             nd.SelectSingleNode("Shape").FirstChild.NextSibling.InnerText = "true";
-                        else
+                            d.DocumentElement.FirstChild.SelectSingleNode("Shape").FirstChild.NextSibling.InnerText = "true";
+                        }
+                            
+                        else {
                             nd.SelectSingleNode("Shape").FirstChild.NextSibling.InnerText = "false";
-                        if (Round.Checked == true)
+                            d.DocumentElement.FirstChild.SelectSingleNode("Shape").FirstChild.NextSibling.InnerText = "false";
+                        }
+                            
+                        if (Round.Checked == true){
                             nd.SelectSingleNode("Shape").LastChild.InnerText = "true";
-                        else
+                            d.DocumentElement.FirstChild.SelectSingleNode("Shape").LastChild.InnerText = "true";
+                        }
+                            
+                        else {
                             nd.SelectSingleNode("Shape").LastChild.InnerText = "false";
+                            d.DocumentElement.FirstChild.SelectSingleNode("Shape").LastChild.InnerText = "false";
+                        }   
                         //end of shape checks....
 
-                        if (Easy.Checked == true)
+                        if (Easy.Checked == true){
                             nd.SelectSingleNode("Difficulty").InnerText = "Easy";
-                        if (Normal.Checked == true)
+                            d.DocumentElement.FirstChild.SelectSingleNode("Difficulty").FirstChild.InnerText = "Easy";
+                        }
+                        if (Normal.Checked == true){
                             nd.SelectSingleNode("Difficulty").InnerText = "Normal";
-                        if (Hard.Checked == true)
+                            d.DocumentElement.FirstChild.SelectSingleNode("Difficulty").FirstChild.InnerText = "Normal";
+                        }
+                            
+                        if (Hard.Checked == true){
                             nd.SelectSingleNode("Difficulty").InnerText = "Hard";
-                        if (Custom.Checked == true)
-                        {
+                            d.DocumentElement.FirstChild.SelectSingleNode("Difficulty").FirstChild.InnerText = "Hard";
+                        }
+                            
+                        if (Custom.Checked == true){
                             nd.SelectSingleNode("Difficulty").InnerText = "Custom";
+                            d.DocumentElement.FirstChild.SelectSingleNode("Difficulty").FirstChild.InnerText = "Custom";
                             XmlNode first = doc.CreateElement("first");
                             first.InnerText = input1.Text;
                             XmlNode second = doc.CreateElement("second");
@@ -72,25 +97,36 @@ namespace WindowsFormsApp_oop2_Lab
                             nd.SelectSingleNode("Difficulty").AppendChild(first);
                             nd.SelectSingleNode("Difficulty").AppendChild(second);
                         }
-                            
-
-
-                        if (red.Checked == true)
+                        if (red.Checked == true){
                             nd.SelectSingleNode("Colour").FirstChild.InnerText = "true";
-                        else
+                            d.DocumentElement.FirstChild.SelectSingleNode("Colour").FirstChild.InnerText = "true";
+                        }  
+                        else{
                             nd.SelectSingleNode("Colour").FirstChild.InnerText = "false";
-                        if (blue.Checked == true)
+                            d.DocumentElement.FirstChild.SelectSingleNode("Colour").FirstChild.InnerText = "false";
+                        }
+                        if (blue.Checked == true){
                             nd.SelectSingleNode("Colour").FirstChild.NextSibling.InnerText = "true";
-                        else
+                            d.DocumentElement.FirstChild.SelectSingleNode("Colour").FirstChild.NextSibling.InnerText = "true";
+                        }
+                        else{
                             nd.SelectSingleNode("Colour").FirstChild.NextSibling.InnerText = "false";
-                        if (yellow.Checked == true)
+                            d.DocumentElement.FirstChild.SelectSingleNode("Colour").FirstChild.NextSibling.InnerText = "false";
+                        }
+                        if (yellow.Checked == true) {
                             nd.SelectSingleNode("Colour").LastChild.InnerText = "true";
-                        else
+                            d.DocumentElement.FirstChild.SelectSingleNode("Colour").LastChild.InnerText = "true";
+                        }
+                        else {
                             nd.SelectSingleNode("Colour").LastChild.InnerText = "false";
+                            d.DocumentElement.FirstChild.SelectSingleNode("Colour").LastChild.InnerText = "false";
+                        }
                         //end of colour checks.....
                     }
                 }
                 doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
+                d.Save(Directory.GetCurrentDirectory() + "//user.xml");
+                
                 this.Close();
             }
         }
