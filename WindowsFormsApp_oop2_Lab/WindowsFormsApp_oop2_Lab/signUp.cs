@@ -68,6 +68,37 @@ namespace WindowsFormsApp_oop2_Lab
                 Email.InnerText = email_.Text;
                 person.AppendChild(Email);
 
+                XmlNode Shape = doc.CreateElement("Shape");
+                XmlNode Square = doc.CreateElement("Square");
+                XmlNode Triangle = doc.CreateElement("Triangle");
+                XmlNode Round = doc.CreateElement("Round");
+                Square.InnerText = "false";
+                Triangle.InnerText = "false";
+                Round.InnerText = "false";
+
+                Shape.AppendChild(Square);
+                Shape.AppendChild(Triangle);
+                Shape.AppendChild(Round);
+                person.AppendChild(Shape);
+
+                XmlNode Difficulty = doc.CreateElement("Difficulty");
+                Difficulty.InnerText = "easy";
+                person.AppendChild(Difficulty);
+
+                XmlNode Colour = doc.CreateElement("Colour");
+                XmlNode Red = doc.CreateElement("Red");
+                XmlNode Blue = doc.CreateElement("Blue");
+                XmlNode Yellow = doc.CreateElement("Yellow");
+
+                Red.InnerText = "false";
+                Blue.InnerText = "false";
+                Yellow.InnerText = "false";
+                Colour.AppendChild(Red);
+                Colour.AppendChild(Blue);
+                Colour.AppendChild(Yellow);
+                person.AppendChild(Colour);
+
+
 
                 doc.DocumentElement.AppendChild(person);
                 doc.Save(Directory.GetCurrentDirectory() + "//document.xml");

@@ -44,7 +44,6 @@ namespace WindowsFormsApp_oop2_Lab
             {
                 MessageBox.Show("user deleted");
             }
-            
         }
     }
 }
