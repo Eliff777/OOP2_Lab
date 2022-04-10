@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.userinformations = new System.Windows.Forms.GroupBox();
+            this.Delete = new System.Windows.Forms.Button();
             this.cancel = new System.Windows.Forms.Button();
             this.Update = new System.Windows.Forms.Button();
             this.city_ = new System.Windows.Forms.TextBox();
@@ -47,7 +48,6 @@
             this.NameSurname_lb = new System.Windows.Forms.Label();
             this.Password_lb = new System.Windows.Forms.Label();
             this.Username_lb = new System.Windows.Forms.Label();
-            this.Delete = new System.Windows.Forms.Button();
             this.userinformations.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,6 +77,16 @@
             this.userinformations.Size = new System.Drawing.Size(539, 410);
             this.userinformations.TabIndex = 78;
             this.userinformations.TabStop = false;
+            // 
+            // Delete
+            // 
+            this.Delete.Location = new System.Drawing.Point(430, 346);
+            this.Delete.Name = "Delete";
+            this.Delete.Size = new System.Drawing.Size(87, 48);
+            this.Delete.TabIndex = 93;
+            this.Delete.Text = "Delete";
+            this.Delete.UseVisualStyleBackColor = true;
+            this.Delete.Click += new System.EventHandler(this.Delete_Click);
             // 
             // cancel
             // 
@@ -147,6 +157,7 @@
             this.password_.PasswordChar = '*';
             this.password_.Size = new System.Drawing.Size(100, 22);
             this.password_.TabIndex = 84;
+            this.password_.TextChanged += new System.EventHandler(this.password__TextChanged);
             // 
             // userName_
             // 
@@ -235,16 +246,6 @@
             this.Username_lb.Size = new System.Drawing.Size(94, 20);
             this.Username_lb.TabIndex = 75;
             this.Username_lb.Text = "Username";
-            // 
-            // Delete
-            // 
-            this.Delete.Location = new System.Drawing.Point(430, 346);
-            this.Delete.Name = "Delete";
-            this.Delete.Size = new System.Drawing.Size(87, 48);
-            this.Delete.TabIndex = 93;
-            this.Delete.Text = "Delete";
-            this.Delete.UseVisualStyleBackColor = true;
-            this.Delete.Click += new System.EventHandler(this.Delete_Click);
             // 
             // updateUsersİnformation
             // 

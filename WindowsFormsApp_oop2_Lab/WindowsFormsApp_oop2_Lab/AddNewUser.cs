@@ -11,7 +11,7 @@ using System.IO;
 using System.Xml.Linq;
 
 using System.Windows.Forms;
-
+using System.Security.Cryptography;
 namespace WindowsFormsApp_oop2_Lab
 {
     public partial class AddNewUser : Form
@@ -20,7 +20,18 @@ namespace WindowsFormsApp_oop2_Lab
         {
             InitializeComponent();
         }
-
+        public static string getHashSha256(string text)
+        {
+            byte[] bytes = Encoding.Unicode.GetBytes(text);
+            SHA256Managed hashstring = new SHA256Managed();
+            byte[] hash = hashstring.ComputeHash(bytes);
+            string hashString = string.Empty;
+            foreach (byte x in hash)
+            {
+                hashString += String.Format("{0:x2}", x);
+            }
+            return hashString;
+        }
         private void cancel_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -49,7 +60,7 @@ namespace WindowsFormsApp_oop2_Lab
                 person.AppendChild(username);
 
                 XmlNode password = doc.CreateElement("password");
-                password.InnerText = password_.Text;
+                password.InnerText = getHashSha256(password_.Text);
                 person.AppendChild(password);
 
                 XmlNode NameSurname = doc.CreateElement("Name-Surname");
@@ -75,6 +86,49 @@ namespace WindowsFormsApp_oop2_Lab
                 XmlNode Email = doc.CreateElement("E-mail");
                 Email.InnerText = email_.Text;
                 person.AppendChild(Email);
+
+                //*************//
+
+                XmlNode Shape = doc.CreateElement("Shape");
+                XmlNode Square = doc.CreateElement("Square");
+                XmlNode Triangle = doc.CreateElement("Triangle");
+                XmlNode Round = doc.CreateElement("Round");
+                Square.InnerText = "false";
+                Triangle.InnerText = "false";
+                Round.InnerText = "false";
+
+                Shape.AppendChild(Square);
+                Shape.AppendChild(Triangle);
+                Shape.AppendChild(Round);
+                person.AppendChild(Shape);
+
+                XmlNode Difficulty = doc.CreateElement("Difficulty");
+                XmlNode degree = doc.CreateElement("Degree");
+                degree.InnerText = "Easy";
+                XmlNode first = doc.CreateElement("first");
+                first.InnerText = "0";
+                XmlNode second = doc.CreateElement("second");
+                second.InnerText = "0";
+                Difficulty.AppendChild(degree);
+                Difficulty.AppendChild(first);
+                Difficulty.AppendChild(second);
+                person.AppendChild(Difficulty);
+
+                XmlNode Colour = doc.CreateElement("Colour");
+                XmlNode Red = doc.CreateElement("Red");
+                XmlNode Blue = doc.CreateElement("Blue");
+                XmlNode Yellow = doc.CreateElement("Yellow");
+
+                Red.InnerText = "false";
+                Blue.InnerText = "false";
+                Yellow.InnerText = "false";
+                Colour.AppendChild(Red);
+                Colour.AppendChild(Blue);
+                Colour.AppendChild(Yellow);
+                person.AppendChild(Colour);
+
+                //*********************//
+
 
                 doc.DocumentElement.AppendChild(person);
                 doc.Save(Directory.GetCurrentDirectory() + "//document.xml");

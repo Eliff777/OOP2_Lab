@@ -10,11 +10,23 @@ using System.Xml;
 using System.IO;
 using System.Xml.Linq;
 using System.Windows.Forms;
-
+using System.Security.Cryptography;
 namespace WindowsFormsApp_oop2_Lab
 {
     public partial class Form1 : Form
     {
+        public static string getHashSha256(string text)
+        {
+            byte[] bytes = Encoding.Unicode.GetBytes(text);
+            SHA256Managed hashstring = new SHA256Managed();
+            byte[] hash = hashstring.ComputeHash(bytes);
+            string hashString = string.Empty;
+            foreach (byte x in hash)
+            {
+                hashString += String.Format("{0:x2}", x);
+            }
+            return hashString;
+        }
         public Form1()
         {
             InitializeComponent();
@@ -27,21 +39,13 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void button1_Click(object sender, EventArgs e)
         {
-           // if (kullanıcıadı.Text == "admin" && şifre.Text == "admin")
-            //{
-                //manager m = new manager();
-                //m.Show();
-               // this.Hide();
-           // }
-           // else
-            {
-                XmlDocument doc = new XmlDocument();
+         XmlDocument doc = new XmlDocument();
                 doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
                 foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
                 {
                     if (node.SelectSingleNode("username").InnerText == kullanıcıadı.Text)
                     {
-                        if (node.SelectSingleNode("password").InnerText == şifre.Text)
+                        if (node.SelectSingleNode("password").InnerText == getHashSha256(şifre.Text))
                         {
                             
 
@@ -82,18 +86,18 @@ namespace WindowsFormsApp_oop2_Lab
                         label3.Show();
                     }
                 }
-            }
          }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
             string curFile = @"document.xml";
             if (File.Exists(curFile) == false)
             {
                 XDocument d = new XDocument(new XElement("Kullanıcılar",
                                            new XElement("person",
                                                new XElement("username", "admin"),
-                                               new XElement("password", "admin"),
+                                               new XElement("password", getHashSha256("admin")),
                                                new XElement("Name-Surname", "Name-Surname"),
                                                new XElement("PhoneNumber", "Phone Number"),
                                                new XElement("Address", "Address"),
@@ -114,7 +118,16 @@ namespace WindowsFormsApp_oop2_Lab
                                                     new XElement("Yellow", "false")))));
                 
                 d.Save(Directory.GetCurrentDirectory() + @"//document.xml");
+            }try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(Directory.GetCurrentDirectory() + "//user.xml");
+                foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
+                {
+                    kullanıcıadı.Text = node.SelectSingleNode("username").InnerText;
+                }
             }
+            catch { }
         }
 
         private void signup_Click(object sender, EventArgs e)
@@ -122,6 +135,29 @@ namespace WindowsFormsApp_oop2_Lab
             signUp s = new signUp();
             this.Hide();
             s.Show();
+        }
+
+        private void kullanıcıadı_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kullanıcıadı_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar)
+                && !char.IsSeparator(e.KeyChar);
+        }
+
+        private void showpassword_CheckedChanged(object sender, EventArgs e)
+        {
+            if (showpassword.Checked)
+            {
+                şifre.PasswordChar = '\0';
+            }
+            else
+            {
+                şifre.PasswordChar = '*';
+            }
         }
     }
 }

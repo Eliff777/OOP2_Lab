@@ -160,6 +160,8 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void Form3_Load(object sender, EventArgs e)
         {
+            input1.Visible = false;
+            input2.Visible = false;
             XmlDocument doc = new XmlDocument();
             doc.Load(Directory.GetCurrentDirectory() + "//user.xml");
             foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
