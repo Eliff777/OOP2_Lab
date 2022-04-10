@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp_oop2_Lab
@@ -18,6 +19,18 @@ namespace WindowsFormsApp_oop2_Lab
         public profile()
         {
             InitializeComponent();
+        }
+        public static string getHashSha256(string text)
+        {
+            byte[] bytes = Encoding.Unicode.GetBytes(text);
+            SHA256Managed hashstring = new SHA256Managed();
+            byte[] hash = hashstring.ComputeHash(bytes);
+            string hashString = string.Empty;
+            foreach (byte x in hash)
+            {
+                hashString += String.Format("{0:x2}", x);
+            }
+            return hashString;
         }
 
         private void profile_Load(object sender, EventArgs e)
@@ -47,6 +60,7 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void update_Click(object sender, EventArgs e)
         {
+            string oldpass = getHashSha256(oldPassword_.Text);
             bool check = false; //eğer eski şifreyi doğru girdiyse true olur.
             string kullanıcıAdı = null;
             XmlDocument d = new XmlDocument();
@@ -54,10 +68,10 @@ namespace WindowsFormsApp_oop2_Lab
             foreach (XmlNode node in d.SelectNodes("Kullanıcılar/person"))
             {
                 kullanıcıAdı = node.SelectSingleNode("username").InnerText;
-                if (oldPassword_.Text == node.SelectSingleNode("password").InnerText)
+                if (oldpass == node.SelectSingleNode("password").InnerText)
                 {
                     check = true;
-                    node.SelectSingleNode("password").InnerText = password_.Text;
+                    node.SelectSingleNode("password").InnerText = getHashSha256(password_.Text);
                     node.SelectSingleNode("Name-Surname").InnerText = nameSurname_.Text;
                     node.SelectSingleNode("PhoneNumber").InnerText =  phoneNumber_.Text;
                     node.SelectSingleNode("Address").InnerText = address_.Text;
@@ -77,6 +91,7 @@ namespace WindowsFormsApp_oop2_Lab
 
             if (check == true)
             {
+                string newpass = getHashSha256(password_.Text);
                 this.Hide();
                 XmlDocument doc = new XmlDocument();
                 doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
@@ -84,7 +99,7 @@ namespace WindowsFormsApp_oop2_Lab
                 {
                     if (kullanıcıAdı == node.SelectSingleNode("username").InnerText)
                     {
-                        node.SelectSingleNode("password").InnerText = password_.Text;
+                        node.SelectSingleNode("password").InnerText = newpass;
                         node.SelectSingleNode("Name-Surname").InnerText = nameSurname_.Text;
                         node.SelectSingleNode("PhoneNumber").InnerText = phoneNumber_.Text;
                         node.SelectSingleNode("Address").InnerText = address_.Text;

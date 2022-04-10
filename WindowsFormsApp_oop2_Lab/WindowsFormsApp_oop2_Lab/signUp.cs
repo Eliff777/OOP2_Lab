@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp_oop2_Lab
@@ -19,9 +20,21 @@ namespace WindowsFormsApp_oop2_Lab
         {
             InitializeComponent();
         }
-
+        public static string getHashSha256(string text)
+        {
+            byte[] bytes = Encoding.Unicode.GetBytes(text);
+            SHA256Managed hashstring = new SHA256Managed();
+            byte[] hash = hashstring.ComputeHash(bytes);
+            string hashString = string.Empty;
+            foreach (byte x in hash)
+            {
+                hashString += String.Format("{0:x2}", x);
+            }
+            return hashString;
+        }
         private void save_signup_Click(object sender, EventArgs e)
         {
+            string pass = getHashSha256(password_.Text);
             bool check = false; //kullanıcı adı alınmışsa true olur
             XmlDocument doc = new XmlDocument();
             doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
@@ -41,7 +54,7 @@ namespace WindowsFormsApp_oop2_Lab
                 person.AppendChild(username);
 
                 XmlNode password = doc.CreateElement("password");
-                password.InnerText = password_.Text;
+                password.InnerText = pass;
                 person.AppendChild(password);
 
                 XmlNode NameSurname = doc.CreateElement("Name-Surname");
@@ -130,6 +143,11 @@ namespace WindowsFormsApp_oop2_Lab
         }
 
         private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void signUp_Load(object sender, EventArgs e)
         {
 
         }

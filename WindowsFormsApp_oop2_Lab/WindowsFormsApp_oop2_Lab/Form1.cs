@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp_oop2_Lab
@@ -19,6 +20,18 @@ namespace WindowsFormsApp_oop2_Lab
         {
             InitializeComponent();
         }
+        public static string getHashSha256(string text)
+        {
+            byte[] bytes = Encoding.Unicode.GetBytes(text);
+            SHA256Managed hashstring = new SHA256Managed();
+            byte[] hash = hashstring.ComputeHash(bytes);
+            string hashString = string.Empty;
+            foreach (byte x in hash)
+            {
+                hashString += String.Format("{0:x2}", x);
+            }
+            return hashString;
+        }
 
         private void label3_Click(object sender, EventArgs e)
         {
@@ -27,21 +40,22 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void button1_Click(object sender, EventArgs e)
         {
-           // if (kullanıcıadı.Text == "admin" && şifre.Text == "admin")
+            string pass = getHashSha256(şifre.Text);
+            //if (kullanıcıadı.Text == "admin" && şifre.Text == "admin")
             //{
-                //manager m = new manager();
-                //m.Show();
-               // this.Hide();
-           // }
-           // else
+            //manager m = new manager();
+            //m.Show();
+            // this.Hide();
+            // }
+            // else
             {
                 XmlDocument doc = new XmlDocument();
                 doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
                 foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
                 {
                     if (node.SelectSingleNode("username").InnerText == kullanıcıadı.Text)
-                    {
-                        if (node.SelectSingleNode("password").InnerText == şifre.Text)
+                    { 
+                        if (node.SelectSingleNode("password").InnerText == getHashSha256(şifre.Text))
                         {
                             
 
@@ -87,13 +101,25 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(Directory.GetCurrentDirectory() + "//user.xml");
+                foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
+                {
+                    kullanıcıadı.Text = node.SelectSingleNode("username").InnerText;
+                }
+            }
+            catch { }
+            string addmin = "admin";
+            string ad = getHashSha256(addmin);
             string curFile = @"document.xml";
             if (File.Exists(curFile) == false)
             {
                 XDocument d = new XDocument(new XElement("Kullanıcılar",
                                            new XElement("person",
                                                new XElement("username", "admin"),
-                                               new XElement("password", "admin"),
+                                               new XElement("password", getHashSha256("admin")),
                                                new XElement("Name-Surname", "Name-Surname"),
                                                new XElement("PhoneNumber", "Phone Number"),
                                                new XElement("Address", "Address"),
@@ -122,6 +148,29 @@ namespace WindowsFormsApp_oop2_Lab
             signUp s = new signUp();
             this.Hide();
             s.Show();
+        }
+
+        private void kullanıcıadı_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar)
+                && !char.IsSeparator(e.KeyChar);
+        }
+
+        private void şifre_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                şifre.PasswordChar = '\0';
+            }
+            else
+            {
+                şifre.PasswordChar = '*';
+            }
         }
     }
 }

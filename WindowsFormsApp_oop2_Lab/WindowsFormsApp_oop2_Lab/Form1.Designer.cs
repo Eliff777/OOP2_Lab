@@ -35,6 +35,7 @@
             this.şifre = new System.Windows.Forms.TextBox();
             this.enter = new System.Windows.Forms.Button();
             this.signup = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -76,6 +77,7 @@
             this.kullanıcıadı.Name = "kullanıcıadı";
             this.kullanıcıadı.Size = new System.Drawing.Size(100, 22);
             this.kullanıcıadı.TabIndex = 3;
+            this.kullanıcıadı.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.kullanıcıadı_KeyPress);
             // 
             // şifre
             // 
@@ -84,6 +86,7 @@
             this.şifre.PasswordChar = '*';
             this.şifre.Size = new System.Drawing.Size(100, 22);
             this.şifre.TabIndex = 4;
+            this.şifre.TextChanged += new System.EventHandler(this.şifre_TextChanged);
             // 
             // enter
             // 
@@ -106,11 +109,23 @@
             this.signup.UseVisualStyleBackColor = true;
             this.signup.Click += new System.EventHandler(this.signup_Click);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(369, 127);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(128, 21);
+            this.checkBox1.TabIndex = 8;
+            this.checkBox1.Text = "Show password";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.signup);
             this.Controls.Add(this.enter);
             this.Controls.Add(this.şifre);
@@ -135,6 +150,7 @@
         private System.Windows.Forms.TextBox şifre;
         private System.Windows.Forms.Button enter;
         private System.Windows.Forms.Button signup;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
