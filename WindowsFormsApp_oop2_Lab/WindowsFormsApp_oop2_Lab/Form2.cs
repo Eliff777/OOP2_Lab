@@ -20,9 +20,13 @@ namespace WindowsFormsApp_oop2_Lab
         {
             InitializeComponent();
         }
-
+        public string username;
         private void Form2_Load(object sender, EventArgs e)
         {
+            if (username == "admin")
+            {
+                managersc.Visible = true;
+            }
             Form3 form3 = new Form3();
         }
 
@@ -34,10 +38,16 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void profileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            this.Close();
             profile pr = new profile();
             pr.Show();
         }
 
-        
+        private void managersc_Click(object sender, EventArgs e)
+        {
+            ListAllUsers l = new ListAllUsers();
+            l.Show();
+            this.Close();
+        }
     }
 }

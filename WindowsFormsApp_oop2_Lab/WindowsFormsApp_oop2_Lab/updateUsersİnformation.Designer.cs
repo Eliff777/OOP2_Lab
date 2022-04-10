@@ -28,9 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.usName = new System.Windows.Forms.TextBox();
-            this.search = new System.Windows.Forms.Button();
             this.userinformations = new System.Windows.Forms.GroupBox();
             this.cancel = new System.Windows.Forms.Button();
             this.Update = new System.Windows.Forms.Button();
@@ -50,39 +47,13 @@
             this.NameSurname_lb = new System.Windows.Forms.Label();
             this.Password_lb = new System.Windows.Forms.Label();
             this.Username_lb = new System.Windows.Forms.Label();
+            this.Delete = new System.Windows.Forms.Button();
             this.userinformations.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 63);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(204, 17);
-            this.label1.TabIndex = 75;
-            this.label1.Text = "Enter the username to search: ";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // usName
-            // 
-            this.usName.Location = new System.Drawing.Point(26, 100);
-            this.usName.Name = "usName";
-            this.usName.Size = new System.Drawing.Size(139, 22);
-            this.usName.TabIndex = 76;
-            this.usName.TextChanged += new System.EventHandler(this.usName_TextChanged);
-            // 
-            // search
-            // 
-            this.search.Location = new System.Drawing.Point(48, 148);
-            this.search.Name = "search";
-            this.search.Size = new System.Drawing.Size(75, 23);
-            this.search.TabIndex = 77;
-            this.search.Text = "search";
-            this.search.UseVisualStyleBackColor = true;
-            this.search.Click += new System.EventHandler(this.search_Click);
-            // 
             // userinformations
             // 
+            this.userinformations.Controls.Add(this.Delete);
             this.userinformations.Controls.Add(this.cancel);
             this.userinformations.Controls.Add(this.Update);
             this.userinformations.Controls.Add(this.city_);
@@ -101,12 +72,11 @@
             this.userinformations.Controls.Add(this.NameSurname_lb);
             this.userinformations.Controls.Add(this.Password_lb);
             this.userinformations.Controls.Add(this.Username_lb);
-            this.userinformations.Location = new System.Drawing.Point(304, 28);
+            this.userinformations.Location = new System.Drawing.Point(63, 28);
             this.userinformations.Name = "userinformations";
-            this.userinformations.Size = new System.Drawing.Size(402, 410);
+            this.userinformations.Size = new System.Drawing.Size(539, 410);
             this.userinformations.TabIndex = 78;
             this.userinformations.TabStop = false;
-            this.userinformations.Visible = false;
             // 
             // cancel
             // 
@@ -266,15 +236,22 @@
             this.Username_lb.TabIndex = 75;
             this.Username_lb.Text = "Username";
             // 
+            // Delete
+            // 
+            this.Delete.Location = new System.Drawing.Point(430, 346);
+            this.Delete.Name = "Delete";
+            this.Delete.Size = new System.Drawing.Size(87, 48);
+            this.Delete.TabIndex = 93;
+            this.Delete.Text = "Delete";
+            this.Delete.UseVisualStyleBackColor = true;
+            this.Delete.Click += new System.EventHandler(this.Delete_Click);
+            // 
             // updateUsersİnformation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.userinformations);
-            this.Controls.Add(this.search);
-            this.Controls.Add(this.usName);
-            this.Controls.Add(this.label1);
             this.Name = "updateUsersİnformation";
             this.Text = "updateUsersİnformation";
             this.TopMost = true;
@@ -282,14 +259,10 @@
             this.userinformations.ResumeLayout(false);
             this.userinformations.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox usName;
-        private System.Windows.Forms.Button search;
         private System.Windows.Forms.GroupBox userinformations;
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.Button Update;
@@ -309,5 +282,6 @@
         private System.Windows.Forms.Label NameSurname_lb;
         private System.Windows.Forms.Label Password_lb;
         private System.Windows.Forms.Label Username_lb;
+        private System.Windows.Forms.Button Delete;
     }
 }

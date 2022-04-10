@@ -22,20 +22,38 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void ListAllUsers_Load(object sender, EventArgs e)
         {
-            string s = null;
-            XmlDocument doc = new XmlDocument();
-            doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
-
-            foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
-            {
-                s += node.SelectSingleNode("username").InnerText + System.Environment.NewLine;
-
-            }
-            userss.Text = s;
+            DataSet ds = new DataSet();
+            ds.ReadXml(Directory.GetCurrentDirectory() + "//document.xml");
+            Tablo.DataSource = ds.Tables[0];
+            ds.Tables[0].Columns.RemoveAt(1);
         }
 
         private void exit_Click(object sender, EventArgs e)
         {
+            this.Close();
+            Form2 f2 = new Form2();
+            f2.username = "admin";
+            f2.Show();
+        }
+
+        private void userss_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Tablo_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            updateUsersİnformation upd = new updateUsersİnformation();
+            this.Hide();
+            
+            upd.username = this.Tablo.CurrentRow.Cells[0].Value.ToString();
+            upd.Show();
+        }
+
+        private void Add_Click(object sender, EventArgs e)
+        {
+            AddNewUser add = new AddNewUser();
+            add.Show();
             this.Close();
         }
     }

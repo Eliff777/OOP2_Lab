@@ -74,28 +74,27 @@ namespace WindowsFormsApp_oop2_Lab
                         //end of shape checks....
 
                         if (Easy.Checked == true){
-                            nd.SelectSingleNode("Difficulty").InnerText = "Easy";
+                            nd.SelectSingleNode("Difficulty").FirstChild.InnerText = "Easy";
                             d.DocumentElement.FirstChild.SelectSingleNode("Difficulty").FirstChild.InnerText = "Easy";
                         }
                         if (Normal.Checked == true){
-                            nd.SelectSingleNode("Difficulty").InnerText = "Normal";
+                            nd.SelectSingleNode("Difficulty").FirstChild.InnerText = "Normal";
                             d.DocumentElement.FirstChild.SelectSingleNode("Difficulty").FirstChild.InnerText = "Normal";
                         }
                             
                         if (Hard.Checked == true){
-                            nd.SelectSingleNode("Difficulty").InnerText = "Hard";
+                            nd.SelectSingleNode("Difficulty").FirstChild.InnerText = "Hard";
                             d.DocumentElement.FirstChild.SelectSingleNode("Difficulty").FirstChild.InnerText = "Hard";
                         }
                             
                         if (Custom.Checked == true){
-                            nd.SelectSingleNode("Difficulty").InnerText = "Custom";
+                            nd.SelectSingleNode("Difficulty").FirstChild.InnerText = "Custom";
+                            nd.SelectSingleNode("Difficulty").FirstChild.NextSibling.InnerText = input1.Text;
+                            nd.SelectSingleNode("Difficulty").LastChild.InnerText = input2.Text;
+
                             d.DocumentElement.FirstChild.SelectSingleNode("Difficulty").FirstChild.InnerText = "Custom";
-                            XmlNode first = doc.CreateElement("first");
-                            first.InnerText = input1.Text;
-                            XmlNode second = doc.CreateElement("second");
-                            second.InnerText = input2.Text;
-                            nd.SelectSingleNode("Difficulty").AppendChild(first);
-                            nd.SelectSingleNode("Difficulty").AppendChild(second);
+                            d.DocumentElement.FirstChild.SelectSingleNode("Difficulty").FirstChild.NextSibling.InnerText = input1.Text;
+                            d.DocumentElement.FirstChild.SelectSingleNode("Difficulty").LastChild.InnerText = input2.Text;
                         }
                         if (red.Checked == true){
                             nd.SelectSingleNode("Colour").FirstChild.InnerText = "true";
@@ -172,14 +171,19 @@ namespace WindowsFormsApp_oop2_Lab
                 if (node.SelectSingleNode("Shape").LastChild.InnerText == "true")
                     Round.Checked = true;
                 //end of shape
-                if (node.SelectSingleNode("Difficulty").InnerText == "Easy")
+                if (node.SelectSingleNode("Difficulty").FirstChild.InnerText == "Easy")
                     Easy.Checked = true;
-                if (node.SelectSingleNode("Difficulty").InnerText == "Normal")
+                if (node.SelectSingleNode("Difficulty").FirstChild.InnerText == "Normal")
                     Normal.Checked = true;
-                if (node.SelectSingleNode("Difficulty").InnerText == "Hard")
+                if (node.SelectSingleNode("Difficulty").FirstChild.InnerText == "Hard")
                     Hard.Checked = true;
-                if (node.SelectSingleNode("Difficulty").InnerText == "Custom")
+                if (node.SelectSingleNode("Difficulty").FirstChild.InnerText == "Custom")
+                {
                     Custom.Checked = true;
+                    input1.Text = node.SelectSingleNode("Difficulty").FirstChild.NextSibling.InnerText;
+                    input2.Text = node.SelectSingleNode("Difficulty").LastChild.InnerText;
+                }
+                    
                 //end of difficulty
                 if (node.SelectSingleNode("Colour").FirstChild.InnerText == "true")
                     red.Checked = true;

@@ -24,6 +24,8 @@ namespace WindowsFormsApp_oop2_Lab
         private void cancel_Click(object sender, EventArgs e)
         {
             this.Close();
+            ListAllUsers l = new ListAllUsers();
+            l.Show();
         }
 
         private void Add_Click(object sender, EventArgs e)
@@ -74,10 +76,11 @@ namespace WindowsFormsApp_oop2_Lab
                 Email.InnerText = email_.Text;
                 person.AppendChild(Email);
 
-
                 doc.DocumentElement.AppendChild(person);
                 doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
                 this.Close();
+                ListAllUsers l = new ListAllUsers();
+                l.Show();
             }
             else
             {
@@ -85,6 +88,7 @@ namespace WindowsFormsApp_oop2_Lab
                 string title = "Warning!";
                 MessageBox.Show(message, title);
             }
+            
         }
 
         private void Password_lb_Click(object sender, EventArgs e)

@@ -39,7 +39,10 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void cancel_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            Form2 f2 = new Form2();
+            f2.username = userName_.Text;
+            f2.Show();
+            this.Close();
         }
 
         private void update_Click(object sender, EventArgs e)
@@ -65,7 +68,7 @@ namespace WindowsFormsApp_oop2_Lab
                 }
                 else
                 {
-                    string message = "The password is incorrect!";
+                    string message = "Please enter the old password correctly";
                     string title = "Warning!";
                     MessageBox.Show(message, title);
                 }
@@ -117,7 +120,7 @@ namespace WindowsFormsApp_oop2_Lab
                 }
                 else
                 {
-                    string message = "The password is incorrect!";
+                    string message = "Please enter the old password correctly";
                     string title = "Warning!";
                     MessageBox.Show(message, title);
                 }

@@ -82,7 +82,15 @@ namespace WindowsFormsApp_oop2_Lab
                 person.AppendChild(Shape);
 
                 XmlNode Difficulty = doc.CreateElement("Difficulty");
-                Difficulty.InnerText = "easy";
+                XmlNode degree = doc.CreateElement("Degree");
+                degree.InnerText = "Easy";
+                XmlNode first = doc.CreateElement("first");
+                first.InnerText = "0";
+                XmlNode second = doc.CreateElement("second");
+                second.InnerText = "0";
+                Difficulty.AppendChild(degree);
+                Difficulty.AppendChild(first);
+                Difficulty.AppendChild(second);
                 person.AppendChild(Difficulty);
 
                 XmlNode Colour = doc.CreateElement("Colour");

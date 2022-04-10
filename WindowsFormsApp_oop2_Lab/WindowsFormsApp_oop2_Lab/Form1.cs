@@ -27,13 +27,13 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (kullanıcıadı.Text == "admin" && şifre.Text == "admin")
-            {
-                manager m = new manager();
-                m.Show();
-                this.Hide();
-            }
-            else
+           // if (kullanıcıadı.Text == "admin" && şifre.Text == "admin")
+            //{
+                //manager m = new manager();
+                //m.Show();
+               // this.Hide();
+           // }
+           // else
             {
                 XmlDocument doc = new XmlDocument();
                 doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
@@ -43,8 +43,11 @@ namespace WindowsFormsApp_oop2_Lab
                     {
                         if (node.SelectSingleNode("password").InnerText == şifre.Text)
                         {
+                            
+
                             this.Hide();
                             Form2 form2 = new Form2();
+                            form2.username = kullanıcıadı.Text;
                             form2.Show();
                             
                             XDocument d = new XDocument(new XElement("Kullanıcılar",
@@ -61,7 +64,10 @@ namespace WindowsFormsApp_oop2_Lab
                                                         new XElement("Square", node.SelectSingleNode("Shape").FirstChild.InnerText),
                                                         new XElement("Triangle", node.SelectSingleNode("Shape").FirstChild.NextSibling.InnerText),
                                                         new XElement("Round", node.SelectSingleNode("Shape").LastChild.InnerText)),
-                                                   new XElement("Difficulty", node.SelectSingleNode("Difficulty").InnerText),
+                                                   new XElement("Difficulty",
+                                                          new XElement("degree", node.SelectSingleNode("Difficulty").FirstChild.InnerText),
+                                                          new XElement("first", node.SelectSingleNode("Difficulty").FirstChild.NextSibling.InnerText),
+                                                          new XElement("second", node.SelectSingleNode("Difficulty").LastChild.InnerText)),
                                                    new XElement("Colour",
                                                         new XElement("Red", node.SelectSingleNode("Colour").FirstChild.InnerText),
                                                         new XElement("Blue", node.SelectSingleNode("Colour").FirstChild.NextSibling.InnerText),
@@ -86,7 +92,7 @@ namespace WindowsFormsApp_oop2_Lab
             {
                 XDocument d = new XDocument(new XElement("Kullanıcılar",
                                            new XElement("person",
-                                               new XElement("username", "Admin"),
+                                               new XElement("username", "admin"),
                                                new XElement("password", "admin"),
                                                new XElement("Name-Surname", "Name-Surname"),
                                                new XElement("PhoneNumber", "Phone Number"),
@@ -98,7 +104,10 @@ namespace WindowsFormsApp_oop2_Lab
                                                     new XElement("Square","false"),
                                                     new XElement("Triangle", "false"),
                                                     new XElement("Round", "false")),
-                                               new XElement("Difficulty", "Difficulty"),
+                                               new XElement("Difficulty",
+                                                    new XElement("degree", "Custom"),
+                                                    new XElement("first","0"),
+                                                    new XElement("second", "0")),
                                                new XElement("Colour",
                                                     new XElement("Red", "false"),
                                                     new XElement("Blue", "false"),

@@ -53,12 +53,6 @@
     <Compile Include="AddNewUser.Designer.cs">
       <DependentUpon>AddNewUser.cs</DependentUpon>
     </Compile>
-    <Compile Include="deleteUser.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="deleteUser.Designer.cs">
-      <DependentUpon>deleteUser.cs</DependentUpon>
-    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,12 +77,6 @@
     <Compile Include="ListAllUsers.Designer.cs">
       <DependentUpon>ListAllUsers.cs</DependentUpon>
     </Compile>
-    <Compile Include="manager.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="manager.Designer.cs">
-      <DependentUpon>manager.cs</DependentUpon>
-    </Compile>
     <Compile Include="profile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,9 +100,6 @@
     <EmbeddedResource Include="AddNewUser.resx">
       <DependentUpon>AddNewUser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="deleteUser.resx">
-      <DependentUpon>deleteUser.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -126,9 +111,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ListAllUsers.resx">
       <DependentUpon>ListAllUsers.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="manager.resx">
-      <DependentUpon>manager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="profile.resx">
       <DependentUpon>profile.cs</DependentUpon>
