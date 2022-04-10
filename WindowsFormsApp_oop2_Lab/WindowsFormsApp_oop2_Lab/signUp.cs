@@ -10,7 +10,7 @@ using System.Xml;
 using System.IO;
 using System.Xml.Linq;
 using System.Windows.Forms;
-
+using System.Security.Cryptography;
 namespace WindowsFormsApp_oop2_Lab
 {
     public partial class signUp : Form
@@ -19,7 +19,18 @@ namespace WindowsFormsApp_oop2_Lab
         {
             InitializeComponent();
         }
-
+        public static string getHashSha256(string text)
+        {
+            byte[] bytes = Encoding.Unicode.GetBytes(text);
+            SHA256Managed hashstring = new SHA256Managed();
+            byte[] hash = hashstring.ComputeHash(bytes);
+            string hashString = string.Empty;
+            foreach (byte x in hash)
+            {
+                hashString += String.Format("{0:x2}", x);
+            }
+            return hashString;
+        }
         private void save_signup_Click(object sender, EventArgs e)
         {
             bool check = false; //kullanıcı adı alınmışsa true olur
@@ -41,7 +52,7 @@ namespace WindowsFormsApp_oop2_Lab
                 person.AppendChild(username);
 
                 XmlNode password = doc.CreateElement("password");
-                password.InnerText = password_.Text;
+                password.InnerText = getHashSha256(password_.Text);
                 person.AppendChild(password);
 
                 XmlNode NameSurname = doc.CreateElement("Name-Surname");

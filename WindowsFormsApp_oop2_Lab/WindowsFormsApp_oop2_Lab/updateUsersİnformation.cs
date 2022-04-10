@@ -10,7 +10,7 @@ using System.Xml;
 using System.IO;
 using System.Xml.Linq;
 using System.Windows.Forms;
-
+using System.Security.Cryptography;
 namespace WindowsFormsApp_oop2_Lab
 {
     public partial class updateUsersİnformation : Form
@@ -36,7 +36,7 @@ namespace WindowsFormsApp_oop2_Lab
                 {
                     //userinformations.Visible = true;
                     userName_.Text = node.SelectSingleNode("username").InnerText;
-                    password_.Text = node.SelectSingleNode("password").InnerText;
+                    //password_.Text = node.SelectSingleNode("password").InnerText;
                     nameSurname_.Text = node.SelectSingleNode("Name-Surname").InnerText;
                     phoneNumber_.Text = node.SelectSingleNode("PhoneNumber").InnerText;
                     address_.Text = node.SelectSingleNode("Address").InnerText;
@@ -62,7 +62,18 @@ namespace WindowsFormsApp_oop2_Lab
         {
 
         }
-        
+        public static string getHashSha256(string text)
+        {
+            byte[] bytes = Encoding.Unicode.GetBytes(text);
+            SHA256Managed hashstring = new SHA256Managed();
+            byte[] hash = hashstring.ComputeHash(bytes);
+            string hashString = string.Empty;
+            foreach (byte x in hash)
+            {
+                hashString += String.Format("{0:x2}", x);
+            }
+            return hashString;
+        }
         private void Update_Click_1(object sender, EventArgs e)
         {
             XmlDocument d = new XmlDocument();
@@ -73,7 +84,7 @@ namespace WindowsFormsApp_oop2_Lab
                 if (node.SelectSingleNode("username").InnerText == username)
                 {
 
-                    node.SelectSingleNode("password").InnerText = password_.Text;
+                    node.SelectSingleNode("password").InnerText = getHashSha256(password_.Text);
                     node.SelectSingleNode("Name-Surname").InnerText = nameSurname_.Text;
                     node.SelectSingleNode("PhoneNumber").InnerText = phoneNumber_.Text;
                     node.SelectSingleNode("Address").InnerText = address_.Text;
@@ -103,6 +114,11 @@ namespace WindowsFormsApp_oop2_Lab
                     this.Close();
                 }
             }
+        }
+
+        private void password__TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
