@@ -49,5 +49,11 @@ namespace WindowsFormsApp_oop2_Lab
             l.Show();
             this.Close();
         }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            about ab = new about();
+            ab.ShowDialog();
+        }
     }
 }
