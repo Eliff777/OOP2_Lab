@@ -53,6 +53,12 @@
     <Compile Include="AddNewUser.Designer.cs">
       <DependentUpon>AddNewUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="easy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="easy.Designer.cs">
+      <DependentUpon>easy.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,11 +77,23 @@
     <Compile Include="Form3.Designer.cs">
       <DependentUpon>Form3.cs</DependentUpon>
     </Compile>
+    <Compile Include="hard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="hard.Designer.cs">
+      <DependentUpon>hard.cs</DependentUpon>
+    </Compile>
     <Compile Include="ListAllUsers.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ListAllUsers.Designer.cs">
       <DependentUpon>ListAllUsers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="normal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="normal.Designer.cs">
+      <DependentUpon>normal.cs</DependentUpon>
     </Compile>
     <Compile Include="profile.cs">
       <SubType>Form</SubType>
@@ -100,6 +118,9 @@
     <EmbeddedResource Include="AddNewUser.resx">
       <DependentUpon>AddNewUser.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="easy.resx">
+      <DependentUpon>easy.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -109,8 +130,14 @@
     <EmbeddedResource Include="Form3.resx">
       <DependentUpon>Form3.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="hard.resx">
+      <DependentUpon>hard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ListAllUsers.resx">
       <DependentUpon>ListAllUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="normal.resx">
+      <DependentUpon>normal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="profile.resx">
       <DependentUpon>profile.cs</DependentUpon>
