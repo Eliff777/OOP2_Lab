@@ -144,5 +144,10 @@ namespace WindowsFormsApp_oop2_Lab
         {
 
         }
+
+        private void signUp_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
