@@ -171,6 +171,7 @@
             // 
             this.save.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.save.Font = new System.Drawing.Font("Lucida Bright", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.save.ImageKey = "(none)";
             this.save.Location = new System.Drawing.Point(541, 204);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(86, 40);
