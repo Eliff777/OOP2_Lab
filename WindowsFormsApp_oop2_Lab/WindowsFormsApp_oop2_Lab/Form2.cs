@@ -64,6 +64,7 @@ namespace WindowsFormsApp_oop2_Lab
         }
         private void yoketme()
         {
+            //soldan sağa yok etme...
             for (int i = 0; i <= butonlar.GetUpperBound(0); i++)
             {
                 for (int j = 0; j <= butonlar.GetUpperBound(1); j++)
@@ -94,6 +95,37 @@ namespace WindowsFormsApp_oop2_Lab
                     }
                 }
              }
+
+            for (int j = 0; j <= butonlar.GetUpperBound(0); j++)
+            {
+                for (int i = 0; i <= butonlar.GetUpperBound(1); i++)
+                {
+                    if (i + 2 < butonlar.GetLength(1))
+                    {
+                        if (butonlar[i, j].Name == butonlar[i + 1, j].Name
+                            && butonlar[i, j].Name == butonlar[i + 2, j].Name
+                            && butonlar[i, j].Name != "")
+                        {
+                            while ((butonlar[i, j].Name == butonlar[i+1, j ].Name) && i + 2 != butonlar.GetLength(1))
+                            {
+                                butonlar[i, j].Name = "";
+                                butonlar[i, j].Text = null;
+                                butonlar[i, j].BackgroundImage = null;
+                                i++;
+                            }
+                            butonlar[i, j].Name = "";
+                            butonlar[i, j].Text = null;
+                            butonlar[i, j].BackgroundImage = null;
+                            if (i + 2 == butonlar.GetLength(1))
+                            {
+                                butonlar[i + 1, j].Name = "";
+                                butonlar[i + 1, j].Text = null;
+                                butonlar[i + 1, j].BackgroundImage = null;
+                            }
+                        }
+                    }
+                }
+            }
         }
         private bool secondtime = false;
         private Button b = null;
