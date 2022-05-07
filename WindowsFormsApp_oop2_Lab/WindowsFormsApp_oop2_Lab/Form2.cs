@@ -62,20 +62,59 @@ namespace WindowsFormsApp_oop2_Lab
             
             
         }
+        private void yoketme()
+        {
+            for (int i = 0; i <= butonlar.GetUpperBound(0); i++)
+            {
+                for (int j = 0; j <= butonlar.GetUpperBound(1); j++)
+                {
+                    if(j+2< butonlar.GetLength(1))
+                    {
+                        if (butonlar[i, j].Name == butonlar[i, j + 1].Name
+                            && butonlar[i, j].Name == butonlar[i, j + 2].Name
+                            && butonlar[i, j].Name != "") 
+                        {
+                            while ((butonlar[i, j].Name == butonlar[i, j + 1].Name) && j + 2 != butonlar.GetLength(1)) 
+                            {
+                                butonlar[i, j].Name = "";
+                                butonlar[i, j].Text = null;
+                                butonlar[i, j].BackgroundImage = null;
+                                j++;
+                            }
+                            butonlar[i, j].Name = "";
+                            butonlar[i, j].Text = null;
+                            butonlar[i, j].BackgroundImage = null;
+                            if(j + 2 == butonlar.GetLength(1))
+                            {
+                                butonlar[i, j + 1].Name = "";
+                                butonlar[i, j + 1].Text = null;
+                                butonlar[i, j + 1].BackgroundImage = null;
+                            }
+                        }
+                    }
+                }
+             }
+        }
         private bool secondtime = false;
         private Button b = null;
         private ImageList imagelist = null;
         private Button[,] butonlar = null;
         private void button_click(object sender, EventArgs e)
         {
+            
             Button btn = sender as Button;
             if (secondtime == true)
             {
                 //Button img = (Button) Application.OpenForms["Form2"].Tag;
                 btn.BackgroundImage = b.BackgroundImage;
+                btn.Name = b.Name;
+                btn.Text = b.Text;
                 secondtime = false;
                 b.BackgroundImage = null;
+                b.Name = null;
+                b.Text = null;
                 b = null;
+                yoketme();
                 random_atama(imagelist, butonlar);
             }
             else
@@ -94,6 +133,9 @@ namespace WindowsFormsApp_oop2_Lab
 
             while (i < 3)
             {
+                string name = null;
+                //0 kırmızı, 1 mavi, 2 sarı
+                // 0 daire, 1 kare, 2 üçgen
                 Random rnd = new Random();
                 Random rnd1 = new Random();
                 int random_number = new Random().Next(0, img.Images.Count);
@@ -104,6 +146,26 @@ namespace WindowsFormsApp_oop2_Lab
                 {
                     Bitmap resized = new Bitmap(img.Images[random_number], new Size(50, 50));
                     value.BackgroundImage = resized;
+                    if (random_number == 0)
+                        name = "00";
+                    if (random_number == 1)
+                        name = "01";
+                    if (random_number == 2)
+                        name = "02";
+                    if (random_number == 3)
+                        name = "10";
+                    if (random_number == 4)
+                        name = "11";
+                    if (random_number == 5)
+                        name = "12";
+                    if (random_number == 6)
+                        name = "20";
+                    if (random_number == 7)
+                        name = "21";
+                    if (random_number == 8)
+                        name = "22";
+                    value.Name = name;
+                    value.Text = name;
                     i++;
                 }
             }
