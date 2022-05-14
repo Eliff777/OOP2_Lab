@@ -83,9 +83,9 @@ namespace WindowsFormsApp_oop2_Lab
                 XmlNode Square = doc.CreateElement("Square");
                 XmlNode Triangle = doc.CreateElement("Triangle");
                 XmlNode Round = doc.CreateElement("Round");
-                Square.InnerText = "false";
-                Triangle.InnerText = "false";
-                Round.InnerText = "false";
+                Square.InnerText = "true";
+                Triangle.InnerText = "true";
+                Round.InnerText = "true";
 
                 Shape.AppendChild(Square);
                 Shape.AppendChild(Triangle);
@@ -109,9 +109,9 @@ namespace WindowsFormsApp_oop2_Lab
                 XmlNode Blue = doc.CreateElement("Blue");
                 XmlNode Yellow = doc.CreateElement("Yellow");
 
-                Red.InnerText = "false";
-                Blue.InnerText = "false";
-                Yellow.InnerText = "false";
+                Red.InnerText = "true";
+                Blue.InnerText = "true";
+                Yellow.InnerText = "true";
                 Colour.AppendChild(Red);
                 Colour.AppendChild(Blue);
                 Colour.AppendChild(Yellow);

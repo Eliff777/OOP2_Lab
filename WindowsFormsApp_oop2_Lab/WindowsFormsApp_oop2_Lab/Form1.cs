@@ -48,9 +48,7 @@ namespace WindowsFormsApp_oop2_Lab
                         if (node.SelectSingleNode("password").InnerText == getHashSha256(şifre.Text))
                         {
                             this.Hide();
-                            Form2 form2 = new Form2();
-                            form2.username = kullanıcıadı.Text;
-                            form2.Show();
+                            
                             
                             XDocument d = new XDocument(new XElement("Kullanıcılar",
                                                new XElement("person",
@@ -77,7 +75,10 @@ namespace WindowsFormsApp_oop2_Lab
                                                   )));
                             
                             d.Save(Directory.GetCurrentDirectory() + "//user.xml");
-                        }
+                        Form2 form2 = new Form2();
+                        form2.username = kullanıcıadı.Text;
+                        form2.Show();
+                    }
                         
                     }
                     else

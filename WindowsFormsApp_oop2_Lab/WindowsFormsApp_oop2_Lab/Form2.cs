@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
-
+using System.Threading; //Thread.sleep
 using System.Windows.Forms;
-
+using System.Timers;
 namespace WindowsFormsApp_oop2_Lab
 {
     public partial class Form2 : Form
@@ -62,6 +62,110 @@ namespace WindowsFormsApp_oop2_Lab
             
             
         }
+        private bool showThePath(int sr, int sc, int tr, int tc)
+        {
+            //grid=matrix
+
+            int m = butonlar.GetUpperBound(0) + 1;
+            int n = butonlar.GetUpperBound(0) + 1;
+            bool[,] visited = new bool[m, n];
+
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    visited[i, j] = false;
+                }
+            }
+
+            string[,] pred = new string[m, n];
+            string s = sr.ToString() + " " + sc.ToString();
+
+            Queue<String> Q = new Queue<string>();
+            Q.Enqueue(s);
+            pred[sr, sc] = "-1 -1";
+            visited[sr, sc] = true;
+            int a = 0;
+            while (Q.Count > 0)
+            {
+                a++;
+                string p = Q.Peek(); Q.Dequeue();
+                string[] subs = p.Split(' ');
+                int r = int.Parse(subs[0]);
+                int c = int.Parse(subs[1]);
+                if (r == tr && c == tc) break;
+
+                // Neighbors
+                int[,] neighs = new int[,] { { r - 1, c }, { r + 1, c }, { r, c - 1 }, { r, c + 1 } };
+                for (int x = 0; x < 4; x++)
+                {
+                    int nr = neighs[x, 0];
+                    int nc = neighs[x, 1];
+                    if (nr < 0 || nr >= m || nc < 0 || nc >= n) continue;
+
+                    if (butonlar[nr, nc].BackgroundImage == null && visited[nr, nc] == false) 
+                    {
+                        visited[nr, nc] = true;
+                        pred[nr, nc] = r.ToString() + " " + c.ToString();
+                        s = nr.ToString() + " " + nc.ToString();
+                        Q.Enqueue(s);
+                    }
+                }
+
+            } // end-while
+            List<string> path = new List<string>();
+            int X = tr;//R
+            int Y = tc;//C
+            while (true)
+            {
+                path.Add(X.ToString() + " " + Y.ToString());
+                try
+                {
+                    string[] subs = pred[X, Y].Split(' ');
+                
+                if (int.Parse(subs[0]) < 0)
+                    break;
+                int nr = int.Parse(subs[0]);
+                int nc = int.Parse(subs[1]);
+                X = nr;
+                Y = nc;
+                }
+                catch
+                {
+                    return false;
+                }
+            } // end-while
+            string buney = null;
+            for (int ş = path.Count() - 1; ş > -1; ş--)
+                buney += path[ş] + " ";
+            int önceki_i = sr;
+            int önceki_j = sc;
+            MessageBox.Show(buney);
+            for (int i = path.Count-2; i > -1; i--) 
+            {
+                string[] subs = path[i].Split(' ');
+                butonlar[int.Parse(subs[0]), int.Parse(subs[1])].BackgroundImage = butonlar[önceki_i, önceki_j].BackgroundImage;
+                string k = null;
+                k = butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Name.Substring(butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Name.Length - 2);
+                //son 2 karakteri aldı yani indexi
+                butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Name = butonlar[önceki_i, önceki_j].Name.Substring(0, 2) + k;
+                //şimdiki buton.Name = önceki buton.Name;
+                //önceki butonun isminin ilk 2 karakterini aldı çünkü ilk 2 karakter şekli belirtir
+                //sonra da k aldı çünkü kendi indexi index
+
+                butonlar[önceki_i, önceki_j].BackgroundImage = null;
+                butonlar[önceki_i, önceki_j].Name = butonlar[önceki_i, önceki_j].Name.Remove(0, 2); //=null idi önceden
+                //butonlar[önceki_i, önceki_j].Text = butonlar[önceki_i, önceki_j].Name;
+                butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Text = butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Name;
+                butonlar[önceki_i, önceki_j].Text = "";
+                butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Refresh();
+                butonlar[önceki_i, önceki_j].Refresh();
+                System.Threading.Thread.Sleep(1000);
+                önceki_i = int.Parse(subs[0]);
+                önceki_j = int.Parse(subs[1]);
+            }
+            return true;
+        }
         private void yoketme()
         {
             //soldan sağa yok etme...
@@ -69,56 +173,56 @@ namespace WindowsFormsApp_oop2_Lab
             {
                 for (int j = 0; j <= butonlar.GetUpperBound(1); j++)
                 {
-                    if(j+2< butonlar.GetLength(1))
+                    if (j + 2 < butonlar.GetLength(1))
                     {
-                        if (butonlar[i, j].Name == butonlar[i, j + 1].Name
-                            && butonlar[i, j].Name == butonlar[i, j + 2].Name
-                            && butonlar[i, j].Name != "") 
+                        if (butonlar[i, j].Name.Substring(0, 2) == butonlar[i, j + 1].Name.Substring(0, 2)
+                            && butonlar[i, j].Name.Substring(0, 2) == butonlar[i, j + 2].Name.Substring(0, 2)
+                            ) //&& butonlar[i, j].Name != ""
                         {
-                            while ((butonlar[i, j].Name == butonlar[i, j + 1].Name) && j + 2 != butonlar.GetLength(1)) 
+                            while ((butonlar[i, j].Name == butonlar[i, j + 1].Name) && j + 2 != butonlar.GetLength(1))
                             {
-                                butonlar[i, j].Name = "";
+                                butonlar[i, j].Name.Remove(0, 2);//  butonlar[i, j].Name = "";
                                 butonlar[i, j].Text = null;
                                 butonlar[i, j].BackgroundImage = null;
                                 j++;
                             }
-                            butonlar[i, j].Name = "";
+                            butonlar[i, j].Name.Remove(0, 2); //butonlar[i, j].Name = "";
                             butonlar[i, j].Text = null;
                             butonlar[i, j].BackgroundImage = null;
-                            if(j + 2 == butonlar.GetLength(1))
+                            if (j + 2 == butonlar.GetLength(1))
                             {
-                                butonlar[i, j + 1].Name = "";
+                                butonlar[i, j + 1].Name.Remove(0, 2);//butonlar[i, j + 1].Name = "";
                                 butonlar[i, j + 1].Text = null;
                                 butonlar[i, j + 1].BackgroundImage = null;
                             }
                         }
                     }
                 }
-             }
+            }
 
+            //yukarıdan aşağıya yok etme...
             for (int j = 0; j <= butonlar.GetUpperBound(0); j++)
             {
                 for (int i = 0; i <= butonlar.GetUpperBound(1); i++)
                 {
                     if (i + 2 < butonlar.GetLength(1))
                     {
-                        if (butonlar[i, j].Name == butonlar[i + 1, j].Name
-                            && butonlar[i, j].Name == butonlar[i + 2, j].Name
-                            && butonlar[i, j].Name != "")
+                        if (butonlar[i, j].Name.Substring(0, 2) == butonlar[i + 1, j].Name.Substring(0, 2)
+                            && butonlar[i, j].Name.Substring(0, 2) == butonlar[i + 2, j].Name.Substring(0, 2))
                         {
-                            while ((butonlar[i, j].Name == butonlar[i+1, j ].Name) && i + 2 != butonlar.GetLength(1))
+                            while ((butonlar[i, j].Name == butonlar[i + 1, j].Name) && i + 2 != butonlar.GetLength(1))
                             {
-                                butonlar[i, j].Name = "";
+                                butonlar[i, j].Name.Remove(0, 2);
                                 butonlar[i, j].Text = null;
                                 butonlar[i, j].BackgroundImage = null;
                                 i++;
                             }
-                            butonlar[i, j].Name = "";
+                            butonlar[i, j].Name.Remove(0, 2);
                             butonlar[i, j].Text = null;
                             butonlar[i, j].BackgroundImage = null;
                             if (i + 2 == butonlar.GetLength(1))
                             {
-                                butonlar[i + 1, j].Name = "";
+                                butonlar[i + 1, j].Name.Remove(0, 2);
                                 butonlar[i + 1, j].Text = null;
                                 butonlar[i + 1, j].BackgroundImage = null;
                             }
@@ -128,36 +232,42 @@ namespace WindowsFormsApp_oop2_Lab
             }
         }
         private bool secondtime = false;
-        private Button b = null;
+        private Button b = null;//ilk tıklanan buton
         private ImageList imagelist = null;
         private Button[,] butonlar = null;
         private void button_click(object sender, EventArgs e)
         {
             
-            Button btn = sender as Button;
+            Button btn = sender as Button;//2. tıklanan buton
+
             if (secondtime == true)
             {
-                //Button img = (Button) Application.OpenForms["Form2"].Tag;
-                btn.BackgroundImage = b.BackgroundImage;
-                btn.Name = b.Name;
-                btn.Text = b.Text;
-                secondtime = false;
-                b.BackgroundImage = null;
-                b.Name = null;
-                b.Text = null;
-                b = null;
-                yoketme();
-                random_atama(imagelist, butonlar);
+                string name = btn.Name.Substring(btn.Name.Length - 2);
+                string si = name.Substring(0, 1);
+                string sj = name.Substring(name.Length - 1);//btn.Name.Length
+
+                name = b.Name.Substring(b.Name.Length - 2);
+                string ti = name.Substring(0, 1);
+                string tj = name.Substring(btn.Name.Length - 1);
+                bool x= showThePath(int.Parse(ti), int.Parse(tj), int.Parse(si), int.Parse(sj));
+                if (x == false)
+                {
+                    MessageBox.Show("You can't move there!!!");
+                    secondtime = false;
+                }
+                    
+                else
+                {
+                    secondtime = false;
+                    yoketme();
+                    random_atama(imagelist, butonlar);
+                }
             }
             else
             {
                 b = btn;
                 secondtime = true;
             }
-        }
-        private void showthepath()
-        {
-
         }
         private void random_atama(ImageList img, Button[,] buttons)
         {
@@ -179,30 +289,30 @@ namespace WindowsFormsApp_oop2_Lab
                     Bitmap resized = new Bitmap(img.Images[random_number], new Size(50, 50));
                     value.BackgroundImage = resized;
                     if (random_number == 0)
-                        name = "00";
+                        name = "00";//kırmızı daire
                     if (random_number == 1)
-                        name = "01";
+                        name = "01";//kırmızı kare
                     if (random_number == 2)
-                        name = "02";
+                        name = "02";//kırmızı üçgen
                     if (random_number == 3)
-                        name = "10";
+                        name = "10";//mavi daire
                     if (random_number == 4)
-                        name = "11";
+                        name = "11";//mavi kare
                     if (random_number == 5)
-                        name = "12";
+                        name = "12";//mavi üçgen
                     if (random_number == 6)
-                        name = "20";
+                        name = "20";//sarı daire
                     if (random_number == 7)
-                        name = "21";
+                        name = "21";//sarı kare
                     if (random_number == 8)
-                        name = "22";
-                    value.Name = name;
-                    value.Text = name;
+                        name = "22";//sarı üçgen
+                    value.Name = name + value.Name.Substring(value.Name.Length - 2);//ilk 2si renk belirtir son 2si index belirtir
+                    value.Text = value.Name;
                     i++;
                 }
+                yoketme();
             }
         }
-
         private ImageList createimagelist()
         {
             ImageList img = new ImageList();
@@ -273,8 +383,10 @@ namespace WindowsFormsApp_oop2_Lab
                     buttons[i, j].Height = 50;
                     buttons[i, j].Left = left;
                     buttons[i, j].Top = top;
+                    buttons[i, j].Name = i.ToString() + j.ToString();
                     buttons[i, j].Click += new EventHandler(this.button_click);
                     left += 50;
+                    buttons[i, j].BackColor = Color.White;
                     this.Controls.Add(buttons[i, j]);
                 }
                 top += 50;
@@ -287,21 +399,18 @@ namespace WindowsFormsApp_oop2_Lab
             Form3 form3 = new Form3();
             form3.Show();
         }
-
         private void profileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
             profile pr = new profile();
             pr.Show();
         }
-
         private void managersc_Click(object sender, EventArgs e)
         {
             ListAllUsers l = new ListAllUsers();
             l.Show();
             this.Close();
         }
-
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             about ab = new about();
