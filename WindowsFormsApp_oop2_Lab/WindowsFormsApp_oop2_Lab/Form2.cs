@@ -146,26 +146,32 @@ namespace WindowsFormsApp_oop2_Lab
                 string[] subs = path[i].Split(' ');
                 butonlar[int.Parse(subs[0]), int.Parse(subs[1])].BackgroundImage = butonlar[önceki_i, önceki_j].BackgroundImage;
                 string k = null;
-                k = butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Name.Substring(butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Name.Length - 2);
+                k = butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Name;
+                //k = butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Name.Substring(butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Name.Length - 2);
+
                 //son 2 karakteri aldı yani indexi
                 butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Name = butonlar[önceki_i, önceki_j].Name.Substring(0, 2) + k;
+                
                 //şimdiki buton.Name = önceki buton.Name;
                 //önceki butonun isminin ilk 2 karakterini aldı çünkü ilk 2 karakter şekli belirtir
                 //sonra da k aldı çünkü kendi indexi index
 
                 butonlar[önceki_i, önceki_j].BackgroundImage = null;
-                butonlar[önceki_i, önceki_j].Name = butonlar[önceki_i, önceki_j].Name.Remove(0, 2); //=null idi önceden
+                butonlar[önceki_i, önceki_j].Name = butonlar[önceki_i, önceki_j].Name.Substring(butonlar[önceki_i, önceki_j].Name.Length - 2);
+               /// butonlar[önceki_i, önceki_j].Name = butonlar[önceki_i, önceki_j].Name.Remove(0, 2); //=null idi önceden
                 //butonlar[önceki_i, önceki_j].Text = butonlar[önceki_i, önceki_j].Name;
-                butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Text = butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Name;
-                butonlar[önceki_i, önceki_j].Text = "";
+                //butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Text = butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Name;
+                //butonlar[önceki_i, önceki_j].Text = "";
                 butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Refresh();
                 butonlar[önceki_i, önceki_j].Refresh();
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(500);
                 önceki_i = int.Parse(subs[0]);
                 önceki_j = int.Parse(subs[1]);
+                //butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Text = butonlar[int.Parse(subs[0]), int.Parse(subs[1])].Name;
             }
             return true;
         }
+        private int total_point = 0;
         private void yoketme()
         {
             //soldan sağa yok etme...
@@ -175,25 +181,40 @@ namespace WindowsFormsApp_oop2_Lab
                 {
                     if (j + 2 < butonlar.GetLength(1))
                     {
-                        if (butonlar[i, j].Name.Substring(0, 2) == butonlar[i, j + 1].Name.Substring(0, 2)
-                            && butonlar[i, j].Name.Substring(0, 2) == butonlar[i, j + 2].Name.Substring(0, 2)
-                            ) //&& butonlar[i, j].Name != ""
+                        bool check = false;
+                        if (butonlar[i, j].Name.Length != 2 &&
+                            butonlar[i, j + 1].Name.Length != 2 &&
+                            butonlar[i, j + 2].Name.Length != 2)
+                        {
+                            check = true;
+                        }
+                                
+                        if (check == true && (butonlar[i, j].Name.Substring(0, 2) == butonlar[i, j + 1].Name.Substring(0, 2)
+                            && butonlar[i, j].Name.Substring(0, 2) == butonlar[i, j + 2].Name.Substring(0, 2)))  //&& butonlar[i, j].Name != ""
                         {
                             while ((butonlar[i, j].Name.Substring(0, 2) == butonlar[i, j + 1].Name.Substring(0, 2)) && j + 2 != butonlar.GetLength(1))
                             {
-                                butonlar[i, j].Name.Remove(0, 2);//  butonlar[i, j].Name = "";
-                                butonlar[i, j].Text = " ";
+                                butonlar[i, j].Name = butonlar[i, j].Name.Substring(butonlar[i, j].Name.Length - 2);
+                                // butonlar[i, j].Name.Remove(0, 2);//  butonlar[i, j].Name = "";
+                                //butonlar[i, j].Text = " ";
                                 butonlar[i, j].BackgroundImage = null;
                                 j++;
+                                total_point++;
                             }
-                            butonlar[i, j].Name.Remove(0, 2); //butonlar[i, j].Name = "";
-                            butonlar[i, j].Text = null;
+                            string n = butonlar[i, j].Name.Substring(0, 2);
+                            butonlar[i, j].Name = butonlar[i, j].Name.Substring(butonlar[i, j].Name.Length - 2);
+
+                            //butonlar[i, j].Name.Remove(0, 2); //butonlar[i, j].Name = "";
+                            //butonlar[i, j].Text = null;
                             butonlar[i, j].BackgroundImage = null;
-                            if (j + 2 == butonlar.GetLength(1))
+                            total_point++;
+                            if (j + 2 == butonlar.GetLength(1) && n == butonlar[i, j + 1].Name.Substring(0, 2))
                             {
-                                butonlar[i, j + 1].Name.Remove(0, 2);//butonlar[i, j + 1].Name = "";
-                                butonlar[i, j + 1].Text = null;
+                                butonlar[i, j + 1].Name = butonlar[i, j + 1].Name.Substring(butonlar[i, j + 1].Name.Length - 2);
+                                //butonlar[i, j + 1].Name.Remove(0, 2);//butonlar[i, j + 1].Name = "";
+                                //butonlar[i, j + 1].Text = null;
                                 butonlar[i, j + 1].BackgroundImage = null;
+                                total_point++;
                             }
                         }
                     }
@@ -207,23 +228,34 @@ namespace WindowsFormsApp_oop2_Lab
                 {
                     if (i + 2 < butonlar.GetLength(1))
                     {
-                        if (butonlar[i, j].Name.Substring(0, 2) == butonlar[i + 1, j].Name.Substring(0, 2)
-                            && butonlar[i, j].Name.Substring(0, 2) == butonlar[i + 2, j].Name.Substring(0, 2))
+                        bool check = false;
+                        if (butonlar[i, j].Name.Length != 2 &&
+                            butonlar[i+1, j ].Name.Length != 2 &&
+                            butonlar[i+2, j].Name.Length != 2)
+                            check = true;
+                        if (check == true && (butonlar[i, j].Name.Substring(0, 2) == butonlar[i + 1, j].Name.Substring(0, 2)
+                            && butonlar[i, j].Name.Substring(0, 2) == butonlar[i + 2, j].Name.Substring(0, 2)))
                         {
                             while ((butonlar[i, j].Name.Substring(0, 2) == butonlar[i + 1, j].Name.Substring(0, 2)) && i + 2 != butonlar.GetLength(1))
                             {
-                                butonlar[i, j].Name.Remove(0, 2);
-                                butonlar[i, j].Text = null;
+                                butonlar[i, j].Name = butonlar[i, j].Name.Substring(butonlar[i, j].Name.Length - 2);
+                                //butonlar[i, j].Name.Remove(0, 2);
+                                // butonlar[i, j].Text = null;
+                                total_point++;
                                 butonlar[i, j].BackgroundImage = null;
                                 i++;
                             }
-                            butonlar[i, j].Name.Remove(0, 2);
-                            butonlar[i, j].Text = null;
+                            string n = butonlar[i, j].Name.Substring(0, 2);
+                            butonlar[i, j].Name = butonlar[i, j].Name.Substring(butonlar[i, j].Name.Length - 2);                           //butonlar[i, j].Name.Remove(0, 2);
+                                                                                                                                           //butonlar[i, j].Text = null;
+                            total_point++;
                             butonlar[i, j].BackgroundImage = null;
                             if (i + 2 == butonlar.GetLength(1))
                             {
-                                butonlar[i + 1, j].Name.Remove(0, 2);
-                                butonlar[i + 1, j].Text = null;
+                                butonlar[i + 1, j].Name = butonlar[i + 1, j].Name.Substring(butonlar[i + 1, j].Name.Length - 2);
+                                total_point++;
+                                //butonlar[i + 1, j].Name.Remove(0, 2);
+                                //butonlar[i + 1, j].Text = null;
                                 butonlar[i + 1, j].BackgroundImage = null;
                             }
                         }
@@ -261,8 +293,6 @@ namespace WindowsFormsApp_oop2_Lab
                     secondtime = false;
                     yoketme();
                     random_atama(imagelist, butonlar);
-                    if (is_the_game_over == true)//burası henüz çalışmıyor...
-                        MessageBox.Show("OYUN BİTTİ");
                 }
             }
             else
@@ -273,6 +303,8 @@ namespace WindowsFormsApp_oop2_Lab
         }
         private void random_atama(ImageList img, Button[,] buttons)
         {
+            if (is_the_game_over == true)//burası henüz çalışmıyor...
+                MessageBox.Show("OYUN BİTTİ");
             int i, count = 0;
             var row = butonlar.GetLength(0);
             var col = butonlar.GetLength(1);
@@ -287,7 +319,7 @@ namespace WindowsFormsApp_oop2_Lab
             if (count == 0)
                 is_the_game_over = true;
             i = 0;
-            if (count >= 3)//yanlış hesaplıyor...
+            if (count >= 3)
                 count = 3;
             while (i < count)
             {
@@ -323,11 +355,14 @@ namespace WindowsFormsApp_oop2_Lab
                     if (random_number == 8)
                         name = "22";//sarı üçgen
                     value.Name = name + value.Name.Substring(value.Name.Length - 2);//ilk 2si renk belirtir son 2si index belirtir
-                    value.Text = value.Name;
+                    //value.Text = value.Name;
                     i++;
                 }
             }
+            if (count < 3)
+                MessageBox.Show("Game Over" + total_point.ToString());
             yoketme();
+            
         }
         private bool is_the_game_over = false;
         private ImageList createimagelist()
@@ -402,6 +437,7 @@ namespace WindowsFormsApp_oop2_Lab
                     buttons[i, j].Top = top;
                     buttons[i, j].Name = i.ToString() + j.ToString();
                     buttons[i, j].Click += new EventHandler(this.button_click);
+                    //buttons[i, j].MouseMove += new MouseEventHandler(this.mouse_up);
                     left += 50;
                     buttons[i, j].BackColor = Color.White;
                     this.Controls.Add(buttons[i, j]);
@@ -411,7 +447,12 @@ namespace WindowsFormsApp_oop2_Lab
             }
             return buttons;
         }
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        //private void mouse_up(object sender, EventArgs e)
+        //{
+        //    Button btn = sender as Button;
+        //    btn.Text = btn.Name;
+        //}
+            private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form3 form3 = new Form3();
             form3.Show();
