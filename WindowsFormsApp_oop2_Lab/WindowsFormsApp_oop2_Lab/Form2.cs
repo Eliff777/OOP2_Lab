@@ -201,9 +201,9 @@ namespace WindowsFormsApp_oop2_Lab
             }
 
             //yukarıdan aşağıya yok etme...
-            for (int j = 0; j <= butonlar.GetUpperBound(0); j++)
+            for (int j = 0; j < butonlar.GetLength(0); j++)
             {
-                for (int i = 0; i <= butonlar.GetUpperBound(1); i++)
+                for (int i = 0; i < butonlar.GetLength(1); i++)
                 {
                     if (i + 2 < butonlar.GetLength(1))
                     {
@@ -280,14 +280,14 @@ namespace WindowsFormsApp_oop2_Lab
             {
                 for (int j = 0; j < col; j++)
                 {
-                    if (butonlar[i, j].BackgroundImage == null) 
+                    if (butonlar[i, j].Name.Length == 2)  
                         count++;
                 }
             }
             if (count == 0)
                 is_the_game_over = true;
             i = 0;
-            if (count >= 3)
+            if (count >= 3)//yanlış hesaplıyor...
                 count = 3;
             while (i < count)
             {
