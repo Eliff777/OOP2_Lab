@@ -10,21 +10,19 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp_oop2_Lab
 {
-    public partial class about : Form
+    public partial class Helpscreen : Form
     {
-        public about()
+        public Helpscreen()
         {
             InitializeComponent();
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void about_Load(object sender, EventArgs e)
-        {
-
+           
+            about ab = new about();
+            
+            ab.ShowDialog();
         }
     }
 }

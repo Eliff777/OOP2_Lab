@@ -148,6 +148,7 @@
             this.Controls.Add(this.gamename);
             this.Name = "about";
             this.Text = "about";
+            this.Load += new System.EventHandler(this.about_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

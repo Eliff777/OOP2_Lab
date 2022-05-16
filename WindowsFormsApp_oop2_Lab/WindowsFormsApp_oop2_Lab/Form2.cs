@@ -433,5 +433,12 @@ namespace WindowsFormsApp_oop2_Lab
             about ab = new about();
             ab.ShowDialog();
         }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Helpscreen h = new Helpscreen();
+            h.Show();
+            
+        }
     }
 }
