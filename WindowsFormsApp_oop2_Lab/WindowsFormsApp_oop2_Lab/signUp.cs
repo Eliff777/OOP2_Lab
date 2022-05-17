@@ -11,6 +11,7 @@ using System.IO;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using System.Data.SqlClient;
 namespace WindowsFormsApp_oop2_Lab
 {
     public partial class signUp : Form
@@ -19,6 +20,7 @@ namespace WindowsFormsApp_oop2_Lab
         {
             InitializeComponent();
         }
+        public string conString = "Data Source=LAPTOP-R4PTUFT9;Initial Catalog=person;Integrated Security=True";
         public static string getHashSha256(string text)
         {
             byte[] bytes = Encoding.Unicode.GetBytes(text);
@@ -33,6 +35,37 @@ namespace WindowsFormsApp_oop2_Lab
         }
         private void save_signup_Click(object sender, EventArgs e)
         {
+            SqlConnection con = new SqlConnection(conString);
+            con.Open();
+            if(con.State==System.Data.ConnectionState.Open)
+            {
+                string q= "insert into Table_1 (username,password,namesurname,phonenumber,address,city,country,email) values(@pusername,@ppassword,@pnamesurname,@pphonenumber,@paddress,@pcity,@pcountry,@pemail)";
+                SqlCommand cmd = new SqlCommand(q, con);
+
+                cmd.Parameters.AddWithValue("@pusername", userName_.Text);
+                cmd.Parameters.AddWithValue("@ppassword", password_.Text);
+                cmd.Parameters.AddWithValue("@pnamesurname", nameSurname_.Text);
+                cmd.Parameters.AddWithValue("@pphonenumber", phoneNumber_.Text);
+                cmd.Parameters.AddWithValue("@paddress", address_.Text);
+                cmd.Parameters.AddWithValue("@pcity", city_.Text);
+                cmd.Parameters.AddWithValue("@pcountry", country_.Text);
+                cmd.Parameters.AddWithValue("@pemail", email_.Text);
+
+                cmd.ExecuteNonQuery();
+            }
+            //SqlCommand commandRegister = new SqlCommand("Insert into Table_1(username,password,namesurname,phonenumber,address,city,country,email) values (@pusername,@ppassword,@pnamesurname,@pphonenumber,@paddress,@pcity,@pcountry,@pemail)");
+            //SqlOperations.CheckConnection(SqlOperations.connection);
+            
+            //commandRegister.Parameters.AddWithValue("@pusername", userName_.Text);
+            //commandRegister.Parameters.AddWithValue("@ppassword", password_.Text);
+            //commandRegister.Parameters.AddWithValue("@pnamesurname", nameSurname_.Text);
+            //commandRegister.Parameters.AddWithValue("@pphonenumber", phoneNumber_.Text);
+            //commandRegister.Parameters.AddWithValue("@paddress", address_.Text);
+            //commandRegister.Parameters.AddWithValue("@pcity", city_.Text);
+            //commandRegister.Parameters.AddWithValue("@pcountry", country_.Text);
+            //commandRegister.Parameters.AddWithValue("@pemail", email_.Text);
+
+            //commandRegister.ExecuteNonQuery();
             bool check = false; //kullanıcı adı alınmışsa true olur
             XmlDocument doc = new XmlDocument();
             doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
