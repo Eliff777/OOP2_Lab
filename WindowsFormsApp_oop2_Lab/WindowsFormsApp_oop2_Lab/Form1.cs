@@ -11,10 +11,12 @@ using System.IO;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using System.Data.SqlClient;
 namespace WindowsFormsApp_oop2_Lab
 {
     public partial class Form1 : Form
     {
+        public string conString = "Data Source=LAPTOP-R4PTUFT9;Initial Catalog=person;Integrated Security=True";
         public static string getHashSha256(string text)
         {
             byte[] bytes = Encoding.Unicode.GetBytes(text);
@@ -39,7 +41,24 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void button1_Click(object sender, EventArgs e)
         {
-         XmlDocument doc = new XmlDocument();
+            //SqlCommand loginCommand = new SqlCommand("Select * from Table_1 where username=@pusername, password=@ppassword");
+            SqlConnection con = new SqlConnection(conString);
+            con.Open();
+            if (con.State == System.Data.ConnectionState.Open)
+            {
+                string q = "Select* from Table_1 where username = @pusername and password = @ppassword";
+                SqlCommand cmd = new SqlCommand(q, con);
+                string pass = getHashSha256(şifre.Text);
+                cmd.Parameters.AddWithValue("@pusername", kullanıcıadı.Text);
+                cmd.Parameters.AddWithValue("@ppassword", pass);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                if (dt.Rows.Count > 0) { }
+                else{ label3.Show(); }
+            }
+            XmlDocument doc = new XmlDocument();
                 doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
                 foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
                 {

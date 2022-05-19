@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
-
+using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 namespace WindowsFormsApp_oop2_Lab
@@ -20,6 +20,7 @@ namespace WindowsFormsApp_oop2_Lab
         {
             InitializeComponent();
         }
+        public string conString = "Data Source=LAPTOP-R4PTUFT9;Initial Catalog=person;Integrated Security=True";
         public static string getHashSha256(string text)
         {
             byte[] bytes = Encoding.Unicode.GetBytes(text);
@@ -41,6 +42,24 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void Add_Click(object sender, EventArgs e)
         {
+            SqlConnection con = new SqlConnection(conString);
+            con.Open();
+            if (con.State == System.Data.ConnectionState.Open)
+            {
+                string q = "insert into Table_1 (username,password,namesurname,phonenumber,address,city,country,email) values(@pusername,@ppassword,@pnamesurname,@pphonenumber,@paddress,@pcity,@pcountry,@pemail)";
+                SqlCommand cmd = new SqlCommand(q, con);
+                string pass = getHashSha256(password_.Text);
+                cmd.Parameters.AddWithValue("@pusername", userName_.Text);
+                cmd.Parameters.AddWithValue("@ppassword", pass);
+                cmd.Parameters.AddWithValue("@pnamesurname", nameSurname_.Text);
+                cmd.Parameters.AddWithValue("@pphonenumber", phoneNumber_.Text);
+                cmd.Parameters.AddWithValue("@paddress", address_.Text);
+                cmd.Parameters.AddWithValue("@pcity", city_.Text);
+                cmd.Parameters.AddWithValue("@pcountry", country_.Text);
+                cmd.Parameters.AddWithValue("@pemail", email_.Text);
+
+                cmd.ExecuteNonQuery();
+            }
             bool check = false; //kullanıcı adı alınmışsa true olur
             XmlDocument doc = new XmlDocument();
             doc.Load(Directory.GetCurrentDirectory() + "//document.xml");

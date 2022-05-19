@@ -56,5 +56,10 @@ namespace WindowsFormsApp_oop2_Lab
             add.Show();
             this.Close();
         }
+
+        private void Tablo_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

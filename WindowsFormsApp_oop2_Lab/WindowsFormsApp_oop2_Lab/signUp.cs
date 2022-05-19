@@ -41,9 +41,9 @@ namespace WindowsFormsApp_oop2_Lab
             {
                 string q= "insert into Table_1 (username,password,namesurname,phonenumber,address,city,country,email) values(@pusername,@ppassword,@pnamesurname,@pphonenumber,@paddress,@pcity,@pcountry,@pemail)";
                 SqlCommand cmd = new SqlCommand(q, con);
-
+                string pass = getHashSha256(password_.Text);
                 cmd.Parameters.AddWithValue("@pusername", userName_.Text);
-                cmd.Parameters.AddWithValue("@ppassword", password_.Text);
+                cmd.Parameters.AddWithValue("@ppassword", pass);
                 cmd.Parameters.AddWithValue("@pnamesurname", nameSurname_.Text);
                 cmd.Parameters.AddWithValue("@pphonenumber", phoneNumber_.Text);
                 cmd.Parameters.AddWithValue("@paddress", address_.Text);

@@ -11,6 +11,7 @@ using System.IO;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using System.Data.SqlClient;
 namespace WindowsFormsApp_oop2_Lab
 {
     public partial class profile : Form
@@ -19,7 +20,7 @@ namespace WindowsFormsApp_oop2_Lab
         {
             InitializeComponent();
         }
-
+        public string conString = "Data Source=LAPTOP-R4PTUFT9;Initial Catalog=person;Integrated Security=True";
         private void profile_Load(object sender, EventArgs e)
         {
             XmlDocument doc = new XmlDocument();
@@ -58,7 +59,21 @@ namespace WindowsFormsApp_oop2_Lab
         }
         private void update_Click(object sender, EventArgs e)
         {
+            //SqlConnection con = new SqlConnection(conString);
+            //con.Open();
+            //if (con.State == System.Data.ConnectionState.Open)
+            //{
+            //    string q = "Update * from Table_1 where username = @pusername and password = @ppassword";
+            //    SqlCommand cmd = new SqlCommand(q, con);
+            //    string pass = getHashSha256(password_.Text);
+            //    cmd.Parameters.AddWithValue("@pusername", userName_.Text);
+            //    cmd.Parameters.AddWithValue("@ppassword", pass);
+            //    SqlDataAdapter da = new SqlDataAdapter(cmd);
+            //    DataTable dt = new DataTable();
+            //    da.Fill(dt);
 
+               
+            //}
             string s = getHashSha256(oldPassword_.Text);
             bool check = false; //eğer eski şifreyi doğru girdiyse true olur.
             string kullanıcıAdı = null;

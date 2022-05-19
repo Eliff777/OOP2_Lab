@@ -97,7 +97,6 @@
     <Compile Include="signUp.Designer.cs">
       <DependentUpon>signUp.cs</DependentUpon>
     </Compile>
-    <Compile Include="SqlOperations.cs" />
     <Compile Include="updateUsersİnformation.cs">
       <SubType>Form</SubType>
     </Compile>
