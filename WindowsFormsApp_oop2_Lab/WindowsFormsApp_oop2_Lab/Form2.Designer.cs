@@ -37,6 +37,7 @@
             this.managersc = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ımageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.best_score_label = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -106,11 +107,21 @@
             this.ımageList1.Images.SetKeyName(7, "sarı_kare.jpg");
             this.ımageList1.Images.SetKeyName(8, "sarı_üçgen.png");
             // 
+            // best_score_label
+            // 
+            this.best_score_label.AutoSize = true;
+            this.best_score_label.Location = new System.Drawing.Point(13, 34);
+            this.best_score_label.Name = "best_score_label";
+            this.best_score_label.Size = new System.Drawing.Size(0, 17);
+            this.best_score_label.TabIndex = 1;
+            this.best_score_label.Click += new System.EventHandler(this.label1_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.best_score_label);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form2";
@@ -132,5 +143,6 @@
         private System.Windows.Forms.ToolStripMenuItem managersc;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ImageList ımageList1;
+        private System.Windows.Forms.Label best_score_label;
     }
 }
