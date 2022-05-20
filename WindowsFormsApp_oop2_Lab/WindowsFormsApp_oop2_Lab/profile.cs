@@ -11,6 +11,9 @@ using System.IO;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using System.Data.SqlClient;
+using System.Data;
+
 namespace WindowsFormsApp_oop2_Lab
 {
     public partial class profile : Form
@@ -19,28 +22,33 @@ namespace WindowsFormsApp_oop2_Lab
         {
             InitializeComponent();
         }
-
+        public string kullanıcıadı;
+        public string conString = "Data Source=DESKTOP-M5UOMRR\\SQLEXPRESS;Initial Catalog=users;Integrated Security=True";
         private void profile_Load(object sender, EventArgs e)
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(Directory.GetCurrentDirectory() + "//user.xml");
-
-            foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
-            {
-                userName_.Text = node.SelectSingleNode("username").InnerText;
-                nameSurname_.Text = node.SelectSingleNode("Name-Surname").InnerText;
-                phoneNumber_.Text = node.SelectSingleNode("PhoneNumber").InnerText;
-                address_.Text = node.SelectSingleNode("Address").InnerText;
-                city_.Text = node.SelectSingleNode("City").InnerText;
-                country_.Text = node.SelectSingleNode("Country").InnerText;
-                email_.Text = node.SelectSingleNode("E-mail").InnerText;
-            }
+            SqlConnection con = new SqlConnection(conString);
+            string sql = "select * from Table_1 where username= @username";
+            SqlParameter prm1 = new SqlParameter("username", kullanıcıadı);
+            SqlCommand komut = new SqlCommand(sql, con);
+            komut.Parameters.Add(prm1);
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(komut);
+            da.Fill(dt);
+            int i = dt.Rows.Count;
+            userName_.Text = dt.Rows[0][0].ToString();
+            nameSurname_.Text = dt.Rows[0][2].ToString();
+            phoneNumber_.Text = dt.Rows[0][3].ToString();
+            address_.Text = dt.Rows[0][4].ToString();
+            city_.Text = dt.Rows[0][5].ToString();
+            country_.Text = dt.Rows[0][6].ToString();
+            email_.Text = dt.Rows[0][7].ToString();
+            con.Close();
         }
 
         private void cancel_Click(object sender, EventArgs e)
         {
             Form2 f2 = new Form2();
-            f2.username = userName_.Text;
+            f2.username = kullanıcıadı;
             f2.Show();
             this.Close();
         }
@@ -56,62 +64,80 @@ namespace WindowsFormsApp_oop2_Lab
             }
             return hashString;
         }
+        //public string conString = "Data Source=DESKTOP-M5UOMRR\\SQLEXPRESS;Initial Catalog=users;Integrated Security=True";
         private void update_Click(object sender, EventArgs e)
         {
+            SqlConnection con = new SqlConnection(conString);
+            con.Open();
+            string sql = "Update Table_1 set  password=@password, namesurname=@namesurname, phonenumber=@phonenumber,address=@address,city=@city,country=@country,email=@email where username=@smth";
+            SqlCommand com = new SqlCommand(sql, con);
+            com.Parameters.AddWithValue("@smth", userName_.Text);
+            com.Parameters.AddWithValue("@password", password_.Text);
+            com.Parameters.AddWithValue("@namesurname", nameSurname_.Text);
+            com.Parameters.AddWithValue("@phonenumber", phoneNumber_.Text);
+            com.Parameters.AddWithValue("@address", address_.Text);
+            com.Parameters.AddWithValue("@city", city_.Text);
+            com.Parameters.AddWithValue("@country", country_.Text);
+            com.Parameters.AddWithValue("@email", email_.Text);
+            com.ExecuteNonQuery();
+            con.Close();
+            this.Close();
+            Form2 f2 = new Form2();
+            f2.username = kullanıcıadı;
+            f2.Show();
+            //string s = getHashSha256(oldPassword_.Text);
+            //bool check = false; //eğer eski şifreyi doğru girdiyse true olur.
+            //string kullanıcıAdı = null;
+            //XmlDocument d = new XmlDocument();
+            //d.Load(Directory.GetCurrentDirectory() + "//user.xml");
+            //foreach (XmlNode node in d.SelectNodes("Kullanıcılar/person"))
+            //{
+            //    kullanıcıAdı = node.SelectSingleNode("username").InnerText;
+            //    if (s == node.SelectSingleNode("password").InnerText)
+            //    {
+            //        check = true;
+            //        node.SelectSingleNode("password").InnerText = getHashSha256(password_.Text);
+            //        node.SelectSingleNode("Name-Surname").InnerText = nameSurname_.Text;
+            //        node.SelectSingleNode("PhoneNumber").InnerText = phoneNumber_.Text;
+            //        node.SelectSingleNode("Address").InnerText = address_.Text;
+            //        node.SelectSingleNode("City").InnerText = city_.Text;
+            //        node.SelectSingleNode("Country").InnerText = country_.Text;
+            //        node.SelectSingleNode("E-mail").InnerText = email_.Text;
+            //        d.Save(Directory.GetCurrentDirectory() + "//user.xml");
+            //    }
+            //    else
+            //    {
+            //        string message = "Please enter the old password correctly";
+            //        string title = "Warning!";
+            //        MessageBox.Show(message, title);
+            //    }
 
-            string s = getHashSha256(oldPassword_.Text);
-            bool check = false; //eğer eski şifreyi doğru girdiyse true olur.
-            string kullanıcıAdı = null;
-            XmlDocument d = new XmlDocument();
-            d.Load(Directory.GetCurrentDirectory() + "//user.xml");
-            foreach (XmlNode node in d.SelectNodes("Kullanıcılar/person"))
-            {
-                kullanıcıAdı = node.SelectSingleNode("username").InnerText;
-                if (s == node.SelectSingleNode("password").InnerText)
-                {
-                    check = true;
-                    node.SelectSingleNode("password").InnerText = getHashSha256(password_.Text);
-                    node.SelectSingleNode("Name-Surname").InnerText = nameSurname_.Text;
-                    node.SelectSingleNode("PhoneNumber").InnerText =  phoneNumber_.Text;
-                    node.SelectSingleNode("Address").InnerText = address_.Text;
-                    node.SelectSingleNode("City").InnerText = city_.Text;
-                    node.SelectSingleNode("Country").InnerText = country_.Text;
-                    node.SelectSingleNode("E-mail").InnerText = email_.Text;
-                    d.Save(Directory.GetCurrentDirectory() + "//user.xml");
-                }
-                else
-                {
-                    string message = "Please enter the old password correctly";
-                    string title = "Warning!";
-                    MessageBox.Show(message, title);
-                }
+            //}
 
-            }
+            //if (check == true)
+            //{
+            //    string newpass = getHashSha256(password_.Text);
+            //    this.Close();
+            //    Form2 f2 = new Form2();
+            //    f2.Show();
+            //    XmlDocument doc = new XmlDocument();
+            //    doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
+            //    foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
+            //    {
+            //        if (kullanıcıAdı == node.SelectSingleNode("username").InnerText)
+            //        {
+            //            node.SelectSingleNode("password").InnerText = newpass;
+            //            node.SelectSingleNode("Name-Surname").InnerText = nameSurname_.Text;
+            //            node.SelectSingleNode("PhoneNumber").InnerText = phoneNumber_.Text;
+            //            node.SelectSingleNode("Address").InnerText = address_.Text;
+            //            node.SelectSingleNode("City").InnerText = city_.Text;
+            //            node.SelectSingleNode("Country").InnerText = country_.Text;
+            //            node.SelectSingleNode("E-mail").InnerText = email_.Text;
 
-            if (check == true)
-            {
-                string newpass = getHashSha256(password_.Text);
-                this.Close();
-                Form2 f2 = new Form2();
-                f2.Show();
-                XmlDocument doc = new XmlDocument();
-                doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
-                foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
-                {
-                    if (kullanıcıAdı == node.SelectSingleNode("username").InnerText)
-                    {
-                        node.SelectSingleNode("password").InnerText = newpass;
-                        node.SelectSingleNode("Name-Surname").InnerText = nameSurname_.Text;
-                        node.SelectSingleNode("PhoneNumber").InnerText = phoneNumber_.Text;
-                        node.SelectSingleNode("Address").InnerText = address_.Text;
-                        node.SelectSingleNode("City").InnerText = city_.Text;
-                        node.SelectSingleNode("Country").InnerText = country_.Text;
-                        node.SelectSingleNode("E-mail").InnerText = email_.Text;
-                        
-                        doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
-                    }
-                }
-            }
+            //            doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
+            //        }
+            //    }
+            //}
         }
 
         private void userName__TextChanged(object sender, EventArgs e)

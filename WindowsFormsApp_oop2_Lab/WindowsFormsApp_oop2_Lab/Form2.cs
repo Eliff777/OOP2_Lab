@@ -12,6 +12,8 @@ using System.Xml.Linq;
 using System.Threading; //Thread.sleep
 using System.Windows.Forms;
 using System.Timers;
+using System.Data.SqlClient;
+using System.Data;
 namespace WindowsFormsApp_oop2_Lab
 {
     public partial class Form2 : Form
@@ -28,36 +30,40 @@ namespace WindowsFormsApp_oop2_Lab
                 managersc.Visible = true;
             }
             Form3 form3 = new Form3();
+            
             //******************
             XmlDocument doc = new XmlDocument();
-            doc.Load(Directory.GetCurrentDirectory() + "//user.xml");
-            
-            foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person/Difficulty"))
+            doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
+
+            foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
             {
-                imagelist = createimagelist();
-                if (node.SelectSingleNode("degree").FirstChild.InnerText == "Easy")
-                {
-                    butonlar = create_board(15, 15);
-                    random_atama(imagelist, butonlar);
-                }
-                if (node.SelectSingleNode("degree").FirstChild.InnerText == "Normal")
-                {
-                    butonlar = create_board(9, 9);
-                    random_atama(imagelist, butonlar);
-                }
-                if (node.SelectSingleNode("degree").FirstChild.InnerText == "Hard")
-                {
-                    butonlar = create_board(6, 6);
-                    random_atama(imagelist, butonlar);
-                }
-                if (node.SelectSingleNode("degree").FirstChild.InnerText == "Custom")
-                {
-                    string a = node.SelectSingleNode("degree").NextSibling.InnerText;
-                    string b = node.SelectSingleNode("degree").NextSibling.NextSibling.InnerText;
-                    butonlar = create_board(int.Parse(a), int.Parse(b));
-                    random_atama(imagelist, butonlar);
-                }
+                 if (node.SelectSingleNode("username").InnerText == username)
+                  {
                 
+                    imagelist = createimagelist();
+                    if (node.SelectSingleNode("Difficulty").FirstChild.InnerText == "Easy")
+                    {
+                        butonlar = create_board(15, 15);
+                        random_atama(imagelist, butonlar);
+                    }
+                    if (node.SelectSingleNode("Difficulty").FirstChild.InnerText == "Normal")
+                    {
+                        butonlar = create_board(9, 9);
+                        random_atama(imagelist, butonlar);
+                    }
+                    if (node.SelectSingleNode("Difficulty").FirstChild.InnerText == "Hard")
+                    {
+                        butonlar = create_board(6, 6);
+                        random_atama(imagelist, butonlar);
+                    }
+                    if (node.SelectSingleNode("Difficulty").FirstChild.InnerText == "Custom")
+                    {
+                        string a = node.SelectSingleNode("Difficulty").FirstChild.NextSibling.InnerText;
+                        string b = node.SelectSingleNode("Difficulty").FirstChild.NextSibling.NextSibling.InnerText;
+                        butonlar = create_board(int.Parse(a), int.Parse(b));
+                        random_atama(imagelist, butonlar);
+                    }
+                }
             }//end of creating board as it wanted to be...
             
             
@@ -200,6 +206,7 @@ namespace WindowsFormsApp_oop2_Lab
                                 butonlar[i, j].BackgroundImage = null;
                                 j++;
                                 total_point++;
+                                puanaldı = true;
                             }
                             string n = butonlar[i, j].Name.Substring(0, 2);
                             butonlar[i, j].Name = butonlar[i, j].Name.Substring(butonlar[i, j].Name.Length - 2);
@@ -244,6 +251,7 @@ namespace WindowsFormsApp_oop2_Lab
                                 total_point++;
                                 butonlar[i, j].BackgroundImage = null;
                                 i++;
+                                puanaldı = true;
                             }
                             string n = butonlar[i, j].Name.Substring(0, 2);
                             butonlar[i, j].Name = butonlar[i, j].Name.Substring(butonlar[i, j].Name.Length - 2);                           //butonlar[i, j].Name.Remove(0, 2);
@@ -263,6 +271,7 @@ namespace WindowsFormsApp_oop2_Lab
                 }
             }
         }
+        private bool puanaldı = false;
         private bool secondtime = false;
         private Button b = null;//ilk tıklanan buton
         private ImageList imagelist = null;
@@ -292,7 +301,9 @@ namespace WindowsFormsApp_oop2_Lab
                 {
                     secondtime = false;
                     yoketme();
-                    random_atama(imagelist, butonlar);
+                    if(puanaldı==false)
+                        random_atama(imagelist, butonlar);
+                    puanaldı = false;
                 }
             }
             else
@@ -301,6 +312,7 @@ namespace WindowsFormsApp_oop2_Lab
                 secondtime = true;
             }
         }
+        public string conString = "Data Source=DESKTOP-M5UOMRR\\SQLEXPRESS;Initial Catalog=users;Integrated Security=True";
         private void random_atama(ImageList img, Button[,] buttons)
         {
             if (is_the_game_over == true)//burası henüz çalışmıyor...
@@ -360,8 +372,34 @@ namespace WindowsFormsApp_oop2_Lab
                 }
             }
             if (count < 3)
+            {
                 MessageBox.Show("Game Over" + total_point.ToString());
-            yoketme();
+                SqlConnection con = new SqlConnection(conString);
+
+                //var select = "SELECT * FROM Table_1 where username=";
+
+                //SqlParameter prm1 = new SqlParameter("username", username.Trim());
+                //SqlCommand komut = new SqlCommand(select, con);
+                //komut.Parameters.Add(prm1);
+
+                //DataTable dt = new DataTable();
+                //SqlDataAdapter da = new SqlDataAdapter(komut);
+                //da.Fill(dt); ;
+
+                ////string s =dt.Tables[0].Columns[8].ToString();
+                //string s= dt.Columns[8].ToString();
+
+
+                string sql = "Update Table_1 set bestscore=@bestscore where username=@smth";
+                SqlCommand com = new SqlCommand(sql, con);
+                
+                com.Parameters.AddWithValue("@bestscore", total_point);
+                com.Parameters.AddWithValue("@smth", username);
+                com.ExecuteNonQuery();
+                con.Close();
+            }
+             yoketme();
+            
             
         }
         private bool is_the_game_over = false;
@@ -371,52 +409,54 @@ namespace WindowsFormsApp_oop2_Lab
             List<string> renkler = new List<string>();
             List<string> şekiller = new List<string>();
             XmlDocument doc = new XmlDocument();
-            doc.Load(Directory.GetCurrentDirectory() + "//user.xml");
+            doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
             foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
             {
-                if (node.SelectSingleNode("Colour").FirstChild.InnerText == "true") 
-                renkler.Add("red");
-                if (node.SelectSingleNode("Colour").FirstChild.NextSibling.InnerText == "true") 
-                renkler.Add("blue");
-                if (node.SelectSingleNode("Colour").LastChild.InnerText == "true") 
-                renkler.Add("yellow");
+                if (node.SelectSingleNode("username").InnerText == username)
+                {
+                    if (node.SelectSingleNode("Colour").FirstChild.InnerText == "true")
+                        renkler.Add("red");
+                    if (node.SelectSingleNode("Colour").FirstChild.NextSibling.InnerText == "true")
+                        renkler.Add("blue");
+                    if (node.SelectSingleNode("Colour").LastChild.InnerText == "true")
+                        renkler.Add("yellow");
 
-                if (node.SelectSingleNode("Shape").FirstChild.InnerText == "true")
-                    şekiller.Add("square");
-                if (node.SelectSingleNode("Shape").FirstChild.NextSibling.InnerText == "true")
-                    şekiller.Add("triangle");
-                if (node.SelectSingleNode("Shape").LastChild.InnerText == "true")
-                    şekiller.Add("round");
-            }
+                    if (node.SelectSingleNode("Shape").FirstChild.InnerText == "true")
+                        şekiller.Add("square");
+                    if (node.SelectSingleNode("Shape").FirstChild.NextSibling.InnerText == "true")
+                        şekiller.Add("triangle");
+                    if (node.SelectSingleNode("Shape").LastChild.InnerText == "true")
+                        şekiller.Add("round");
+                }
 
-           if(renkler.Contains("red"))
-           {
-                if (şekiller.Contains("round"))
-                    img.Images.Add(ımageList1.Images[0]);
-                if (şekiller.Contains("square"))
-                    img.Images.Add(ımageList1.Images[1]);
-                if (şekiller.Contains("triangle"))
-                    img.Images.Add(ımageList1.Images[2]);
-           }
-            if (renkler.Contains("blue"))
-            {
-                if (şekiller.Contains("round"))
-                    img.Images.Add(ımageList1.Images[3]);
-                if (şekiller.Contains("square"))
-                    img.Images.Add(ımageList1.Images[4]);
-                if (şekiller.Contains("triangle"))
-                    img.Images.Add(ımageList1.Images[5]);
+                if (renkler.Contains("red"))
+                {
+                    if (şekiller.Contains("round"))
+                        img.Images.Add(ımageList1.Images[0]);
+                    if (şekiller.Contains("square"))
+                        img.Images.Add(ımageList1.Images[1]);
+                    if (şekiller.Contains("triangle"))
+                        img.Images.Add(ımageList1.Images[2]);
+                }
+                if (renkler.Contains("blue"))
+                {
+                    if (şekiller.Contains("round"))
+                        img.Images.Add(ımageList1.Images[3]);
+                    if (şekiller.Contains("square"))
+                        img.Images.Add(ımageList1.Images[4]);
+                    if (şekiller.Contains("triangle"))
+                        img.Images.Add(ımageList1.Images[5]);
+                }
+                if (renkler.Contains("yellow"))
+                {
+                    if (şekiller.Contains("round"))
+                        img.Images.Add(ımageList1.Images[6]);
+                    if (şekiller.Contains("square"))
+                        img.Images.Add(ımageList1.Images[7]);
+                    if (şekiller.Contains("triangle"))
+                        img.Images.Add(ımageList1.Images[8]);
+                }
             }
-            if (renkler.Contains("yellow"))
-            {
-                if (şekiller.Contains("round"))
-                    img.Images.Add(ımageList1.Images[6]);
-                if (şekiller.Contains("square"))
-                    img.Images.Add(ımageList1.Images[7]);
-                if (şekiller.Contains("triangle"))
-                    img.Images.Add(ımageList1.Images[8]);
-            }
-
             return img;
 
         }
@@ -455,12 +495,14 @@ namespace WindowsFormsApp_oop2_Lab
             private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form3 form3 = new Form3();
+            form3.kullanıcı_adı = username;
             form3.Show();
         }
         private void profileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Hide();
             profile pr = new profile();
+            pr.kullanıcıadı = username;
             pr.Show();
         }
         private void managersc_Click(object sender, EventArgs e)

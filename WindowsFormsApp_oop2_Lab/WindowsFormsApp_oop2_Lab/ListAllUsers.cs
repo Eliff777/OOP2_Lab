@@ -10,7 +10,8 @@ using System.Xml;
 using System.IO;
 using System.Xml.Linq;
 using System.Windows.Forms;
-
+using System.Data.SqlClient;
+using System.Data;
 namespace WindowsFormsApp_oop2_Lab
 {
     public partial class ListAllUsers : Form
@@ -19,13 +20,19 @@ namespace WindowsFormsApp_oop2_Lab
         {
             InitializeComponent();
         }
-
-        private void ListAllUsers_Load(object sender, EventArgs e)
+        public string conString = "Data Source=DESKTOP-M5UOMRR\\SQLEXPRESS;Initial Catalog=users;Integrated Security=True";
+         private void ListAllUsers_Load(object sender, EventArgs e)
         {
-            DataSet ds = new DataSet();
-            ds.ReadXml(Directory.GetCurrentDirectory() + "//document.xml");
+            var select = "SELECT * FROM Table_1";
+            var c = new SqlConnection(conString); // Your Connection String here
+            var dataAdapter = new SqlDataAdapter(select, c);
+
+            var commandBuilder = new SqlCommandBuilder(dataAdapter);
+            var ds = new DataSet();
+            dataAdapter.Fill(ds);
+            Tablo.ReadOnly = true;
+            ds.Tables[0].Columns.Remove(ds.Tables[0].Columns[1]);
             Tablo.DataSource = ds.Tables[0];
-            ds.Tables[0].Columns.RemoveAt(1);
         }
 
         private void exit_Click(object sender, EventArgs e)
@@ -55,6 +62,11 @@ namespace WindowsFormsApp_oop2_Lab
             AddNewUser add = new AddNewUser();
             add.Show();
             this.Close();
+        }
+
+        private void Tablo_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

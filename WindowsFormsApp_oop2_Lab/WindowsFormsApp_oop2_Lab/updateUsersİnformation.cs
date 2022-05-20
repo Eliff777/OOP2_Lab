@@ -11,6 +11,8 @@ using System.IO;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using System.Data.SqlClient;
+using System.Data;
 namespace WindowsFormsApp_oop2_Lab
 {
     public partial class updateUsersİnformation : Form
@@ -74,26 +76,41 @@ namespace WindowsFormsApp_oop2_Lab
             }
             return hashString;
         }
+        public string conString = "Data Source=DESKTOP-M5UOMRR\\SQLEXPRESS;Initial Catalog=users;Integrated Security=True";
         private void Update_Click_1(object sender, EventArgs e)
         {
-            XmlDocument d = new XmlDocument();
-            d.Load(Directory.GetCurrentDirectory() + "//document.xml");
+            SqlConnection con = new SqlConnection(conString);
+            con.Open();
+            string sql = "Update Table_1 set  password=@password, namesurname=@namesurname, phonenumber=@phonenumber,address=@address,city=@city,country=@country,email=@email where username=@smth";
+            SqlCommand com = new SqlCommand(sql, con);
+            com.Parameters.AddWithValue("@smth", username);
+            com.Parameters.AddWithValue("@password", password_.Text);
+            com.Parameters.AddWithValue("@namesurname", nameSurname_.Text);
+            com.Parameters.AddWithValue("@phonenumber", phoneNumber_.Text);
+            com.Parameters.AddWithValue("@address", address_.Text);
+            com.Parameters.AddWithValue("@city", city_.Text);
+            com.Parameters.AddWithValue("@country", country_.Text);
+            com.Parameters.AddWithValue("@email", email_.Text);
+            com.ExecuteNonQuery();
+            con.Close();
+            //XmlDocument d = new XmlDocument();
+            //d.Load(Directory.GetCurrentDirectory() + "//document.xml");
 
-            foreach (XmlNode node in d.SelectNodes("Kullanıcılar/person"))
-            {
-                if (node.SelectSingleNode("username").InnerText == username)
-                {
+            //foreach (XmlNode node in d.SelectNodes("Kullanıcılar/person"))
+            //{
+            //    if (node.SelectSingleNode("username").InnerText == username)
+            //    {
 
-                    node.SelectSingleNode("password").InnerText = getHashSha256(password_.Text);
-                    node.SelectSingleNode("Name-Surname").InnerText = nameSurname_.Text;
-                    node.SelectSingleNode("PhoneNumber").InnerText = phoneNumber_.Text;
-                    node.SelectSingleNode("Address").InnerText = address_.Text;
-                    node.SelectSingleNode("City").InnerText = city_.Text;
-                    node.SelectSingleNode("Country").InnerText = country_.Text;
-                    node.SelectSingleNode("E-mail").InnerText = email_.Text;
-                    d.Save(@Directory.GetCurrentDirectory() + "//document.xml");
-                }
-            }
+            //        node.SelectSingleNode("password").InnerText = getHashSha256(password_.Text);
+            //        node.SelectSingleNode("Name-Surname").InnerText = nameSurname_.Text;
+            //        node.SelectSingleNode("PhoneNumber").InnerText = phoneNumber_.Text;
+            //        node.SelectSingleNode("Address").InnerText = address_.Text;
+            //        node.SelectSingleNode("City").InnerText = city_.Text;
+            //        node.SelectSingleNode("Country").InnerText = country_.Text;
+            //        node.SelectSingleNode("E-mail").InnerText = email_.Text;
+            //        d.Save(@Directory.GetCurrentDirectory() + "//document.xml");
+            //    }
+            //}
             ListAllUsers l = new ListAllUsers();
             l.Show();
             this.Close();
@@ -101,19 +118,29 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
-            foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
-            {
-                if (node.SelectSingleNode("username").InnerText == username)
-                {
-                    node.ParentNode.RemoveChild(node);
-                    doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
-                    ListAllUsers l = new ListAllUsers();
-                    l.Show();
-                    this.Close();
-                }
-            }
+            SqlConnection con = new SqlConnection(conString);
+            con.Open();
+            string sql = "delete Table_1 where username=@smth";
+            SqlCommand com = new SqlCommand(sql, con);
+            com.Parameters.AddWithValue("@smth", username);
+            com.ExecuteNonQuery();
+            con.Close();
+            ListAllUsers l = new ListAllUsers();
+            l.Show();
+            this.Close();
+            //XmlDocument doc = new XmlDocument();
+            //doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
+            //foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
+            //{
+            //    if (node.SelectSingleNode("username").InnerText == username)
+            //    {
+            //        node.ParentNode.RemoveChild(node);
+            //        doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
+            //        ListAllUsers l = new ListAllUsers();
+            //        l.Show();
+            //        this.Close();
+            //    }
+            //}
         }
 
         private void password__TextChanged(object sender, EventArgs e)
