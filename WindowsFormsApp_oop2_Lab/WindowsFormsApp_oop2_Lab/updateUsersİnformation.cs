@@ -76,15 +76,16 @@ namespace WindowsFormsApp_oop2_Lab
             }
             return hashString;
         }
-        public string conString = "Data Source=DESKTOP-M5UOMRR\\SQLEXPRESS;Initial Catalog=users;Integrated Security=True";
+        public string conString = "Data Source=LAPTOP-R4PTUFT9;Initial Catalog=person;Integrated Security=True";
         private void Update_Click_1(object sender, EventArgs e)
         {
             SqlConnection con = new SqlConnection(conString);
             con.Open();
             string sql = "Update Table_1 set  password=@password, namesurname=@namesurname, phonenumber=@phonenumber,address=@address,city=@city,country=@country,email=@email where username=@smth";
+            string pass = getHashSha256(password_.Text);
             SqlCommand com = new SqlCommand(sql, con);
             com.Parameters.AddWithValue("@smth", username);
-            com.Parameters.AddWithValue("@password", password_.Text);
+            com.Parameters.AddWithValue("@password", pass);
             com.Parameters.AddWithValue("@namesurname", nameSurname_.Text);
             com.Parameters.AddWithValue("@phonenumber", phoneNumber_.Text);
             com.Parameters.AddWithValue("@address", address_.Text);

@@ -14,16 +14,17 @@ using System.Windows.Forms;
 using System.Timers;
 using System.Data.SqlClient;
 using System.Data;
+using System.Media;
 namespace WindowsFormsApp_oop2_Lab
 {
     public partial class Form2 : Form
     {
+        SoundPlayer player = new SoundPlayer(@"C:\Users\simge\Downloads\move_sound.wav");
         public Form2()
         {
             InitializeComponent();
         }
         public string whatis = null;
-
         public string username;
         private void Form2_Load(object sender, EventArgs e)
         {
@@ -231,9 +232,9 @@ namespace WindowsFormsApp_oop2_Lab
                         {
                             while ((butonlar[i, j].Name.Substring(0, 2) == butonlar[i, j + 1].Name.Substring(0, 2)) && j + 2 != butonlar.GetLength(1))
                             {
-                                MessageBox.Show(butonlar[i, j + 2].Name);
+                                //MessageBox.Show(butonlar[i, j + 2].Name);
                                 if (butonlar[i, j + 2].BackgroundImage == null)
-                                    MessageBox.Show("NULL");
+                                   // MessageBox.Show("NULL");
                                 butonlar[i, j].Name = butonlar[i, j].Name.Substring(butonlar[i, j].Name.Length - 2);
                                 // butonlar[i, j].Name.Remove(0, 2);//  butonlar[i, j].Name = "";
                                 //butonlar[i, j].Text = " ";
@@ -324,8 +325,10 @@ namespace WindowsFormsApp_oop2_Lab
                     
                 else
                 {
+
                     secondtime = false;
                     yoketme();
+                    //player.Play();
                     if(puanaldı==false)
                         random_atama(imagelist, butonlar);
                     puanaldı = false;
@@ -335,9 +338,10 @@ namespace WindowsFormsApp_oop2_Lab
             {
                 b = btn;
                 secondtime = true;
+               
             }
         }
-        public string conString = "Data Source=DESKTOP-M5UOMRR\\SQLEXPRESS;Initial Catalog=users;Integrated Security=True";
+        public string conString = "Data Source=LAPTOP-R4PTUFT9;Initial Catalog=person;Integrated Security=True";
         private void random_atama(ImageList img, Button[,] buttons)
         {
             List<string> liste = new List<string>();
@@ -380,7 +384,7 @@ namespace WindowsFormsApp_oop2_Lab
                 //int rowa = rnd.Next(butonlar.GetLength(0));//int rowa = rnd.Next(buttons.GetUpperBound(0));
                 //int column = rnd1.Next(butonlar.GetLength(1));//int column = rnd1.Next(buttons.GetUpperBound(0));
                 var value = buttons[rowa, column];
-                MessageBox.Show(rowa.ToString() + column.ToString() + random_number.ToString());
+               // MessageBox.Show(rowa.ToString() + column.ToString() + random_number.ToString());
 
                 if (value.BackgroundImage == null)
                 {
@@ -555,6 +559,17 @@ namespace WindowsFormsApp_oop2_Lab
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Helpscreen h = new Helpscreen();
+            h.Show();
         }
     }
 }

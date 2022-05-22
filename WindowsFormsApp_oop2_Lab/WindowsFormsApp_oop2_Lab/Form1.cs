@@ -38,7 +38,7 @@ namespace WindowsFormsApp_oop2_Lab
         {
 
         }
-        public string conString = "Data Source=DESKTOP-M5UOMRR\\SQLEXPRESS;Initial Catalog=users;Integrated Security=True";
+        public string conString = "Data Source=LAPTOP-R4PTUFT9;Initial Catalog=person;Integrated Security=True";
         private void button1_Click(object sender, EventArgs e)
         {
             SqlConnection con = new SqlConnection(conString);
@@ -47,8 +47,9 @@ namespace WindowsFormsApp_oop2_Lab
             {
                 con.Open();
                 string sql = "select * from Table_1 where username= @username AND password=@password ";
+                string pass = getHashSha256(şifre.Text);
                 SqlParameter prm1 = new SqlParameter("username", kullanıcıadı.Text.Trim());
-                SqlParameter prm2 = new SqlParameter("password", şifre.Text.Trim());
+                SqlParameter prm2 = new SqlParameter("password",pass.Trim());
                 SqlCommand komut = new SqlCommand(sql, con);
                 komut.Parameters.Add(prm1);
                 komut.Parameters.Add(prm2);
@@ -92,6 +93,7 @@ namespace WindowsFormsApp_oop2_Lab
                         con.Close();
                         con.Open();
                         string q = "insert into Table_1 (username,password,namesurname,phonenumber,address,city,country,email,bestscore) values(@pusername,@ppassword,@pnamesurname,@pphonenumber,@paddress,@pcity,@pcountry,@pemail,@bestscore)";
+                      
                         SqlCommand cmd = new SqlCommand(q, con);
                         cmd.Parameters.AddWithValue("@pusername", "admin");
                         cmd.Parameters.AddWithValue("@ppassword", "admin");

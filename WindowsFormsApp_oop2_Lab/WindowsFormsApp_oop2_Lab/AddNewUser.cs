@@ -39,7 +39,7 @@ namespace WindowsFormsApp_oop2_Lab
             ListAllUsers l = new ListAllUsers();
             l.Show();
         }
-        public string conString = "Data Source=DESKTOP-M5UOMRR\\SQLEXPRESS;Initial Catalog=users;Integrated Security=True";
+        public string conString = "Data Source=LAPTOP-R4PTUFT9;Initial Catalog=person;Integrated Security=True";
         private void Add_Click(object sender, EventArgs e)
         {
             SqlConnection con = new SqlConnection(conString);
@@ -61,9 +61,10 @@ namespace WindowsFormsApp_oop2_Lab
             else if (con.State == System.Data.ConnectionState.Open)
             {
                 string q = "insert into Table_1 (username,password,namesurname,phonenumber,address,city,country,email) values(@pusername,@ppassword,@pnamesurname,@pphonenumber,@paddress,@pcity,@pcountry,@pemail)";
+                string pass = getHashSha256(password_.Text);
                 cmd = new SqlCommand(q, con);
                 cmd.Parameters.AddWithValue("@pusername", userName_.Text);
-                cmd.Parameters.AddWithValue("@ppassword", password_.Text);
+                cmd.Parameters.AddWithValue("@ppassword", pass);
                 cmd.Parameters.AddWithValue("@pnamesurname", nameSurname_.Text);
                 cmd.Parameters.AddWithValue("@pphonenumber", phoneNumber_.Text);
                 cmd.Parameters.AddWithValue("@paddress", address_.Text);
