@@ -147,53 +147,78 @@ namespace WindowsFormsApp_oop2_Lab
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string ka = null;
-            bool chk = false;//eğer şifre doğruysa true olur sil demek.
-            XmlDocument d = new XmlDocument();
-            d.Load(Directory.GetCurrentDirectory() + "//user.xml");
-            foreach (XmlNode node in d.SelectNodes("Kullanıcılar/person"))
+
+            SqlConnection con = new SqlConnection(conString);
+            con.Open();
+            var select = "SELECT * FROM Table_1 where username=@us";
+
+            SqlParameter prm1 = new SqlParameter("@us", kullanıcıadı.Trim());
+            SqlCommand komut = new SqlCommand(select, con);
+            komut.Parameters.Add(prm1);
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(komut);
+            da.Fill(dt);
+            string a = dt.Rows[0][1].ToString();
+            if (a == oldPassword_.Text.Trim())
             {
-                if (getHashSha256(oldPassword_.Text) == node.SelectSingleNode("password").InnerText)
-                {
-                    ka = node.SelectSingleNode("username").InnerText;
-                    chk = true;
-                    node.ParentNode.RemoveChild(node);
-                    d.Save(Directory.GetCurrentDirectory() + "//user.xml");
-                }
-                else
-                {
-                    string message = "Please enter the old password correctly";
-                    string title = "Warning!";
-                    MessageBox.Show(message, title);
-                }
+                string sql = "delete Table_1 where username=@smth";
+                SqlCommand com = new SqlCommand(sql, con);
+                com.Parameters.AddWithValue("@smth", kullanıcıadı);
+                com.ExecuteNonQuery();
+                con.Close();
+                Form1 f1 = new Form1();
+                f1.Show();
+                this.Close();
             }
-            
-            if (chk == true)
-            {
-                XmlDocument doc = new XmlDocument();
-                doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
+            else
+                MessageBox.Show("Wrong password");
+            //    string ka = null;
+            //    bool chk = false;//eğer şifre doğruysa true olur sil demek.
+            //    XmlDocument d = new XmlDocument();
+            //    d.Load(Directory.GetCurrentDirectory() + "//user.xml");
+            //    foreach (XmlNode node in d.SelectNodes("Kullanıcılar/person"))
+            //    {
+            //        if (getHashSha256(oldPassword_.Text) == node.SelectSingleNode("password").InnerText)
+            //        {
+            //            ka = node.SelectSingleNode("username").InnerText;
+            //            chk = true;
+            //            node.ParentNode.RemoveChild(node);
+            //            d.Save(Directory.GetCurrentDirectory() + "//user.xml");
+            //        }
+            //        else
+            //        {
+            //            string message = "Please enter the old password correctly";
+            //            string title = "Warning!";
+            //            MessageBox.Show(message, title);
+            //        }
+            //    }
 
-                foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
-                {
-                    if (ka == node.SelectSingleNode("username").InnerText)
-                    {
-                        node.ParentNode.RemoveChild(node);
-                        doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
-                        List<Form> openForms = new List<Form>();
+            //    if (chk == true)
+            //    {
+            //        XmlDocument doc = new XmlDocument();
+            //        doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
 
-                        foreach (Form f in Application.OpenForms)
-                            openForms.Add(f);
+            //        foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))
+            //        {
+            //            if (ka == node.SelectSingleNode("username").InnerText)
+            //            {
+            //                node.ParentNode.RemoveChild(node);
+            //                doc.Save(Directory.GetCurrentDirectory() + "//document.xml");
+            //                List<Form> openForms = new List<Form>();
 
-                        foreach (Form f in openForms)
-                        {
-                            if (f.Name == "Form1")
-                                f.Show();
-                            else
-                                f.Close();
-                        }
-                    }
-                }
-            }
+            //                foreach (Form f in Application.OpenForms)
+            //                    openForms.Add(f);
+
+            //                foreach (Form f in openForms)
+            //                {
+            //                    if (f.Name == "Form1")
+            //                        f.Show();
+            //                    else
+            //                        f.Close();
+            //                }
+            //            }
+            //        }
+            //    }
         }
     }
 }

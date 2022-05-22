@@ -81,53 +81,53 @@ namespace WindowsFormsApp_oop2_Lab
         {
             SqlConnection con = new SqlConnection(conString);
             con.Open();
-            string sql = "Update Table_1 set  password=@password, namesurname=@namesurname, phonenumber=@phonenumber,address=@address,city=@city,country=@country,email=@email where username=@smth";
-            SqlCommand com = new SqlCommand(sql, con);
-            com.Parameters.AddWithValue("@smth", username);
-            com.Parameters.AddWithValue("@password", password_.Text);
-            com.Parameters.AddWithValue("@namesurname", nameSurname_.Text);
-            com.Parameters.AddWithValue("@phonenumber", phoneNumber_.Text);
-            com.Parameters.AddWithValue("@address", address_.Text);
-            com.Parameters.AddWithValue("@city", city_.Text);
-            com.Parameters.AddWithValue("@country", country_.Text);
-            com.Parameters.AddWithValue("@email", email_.Text);
-            com.ExecuteNonQuery();
-            con.Close();
-            //XmlDocument d = new XmlDocument();
-            //d.Load(Directory.GetCurrentDirectory() + "//document.xml");
+                string sql = "Update Table_1 set  password=@password, namesurname=@namesurname, phonenumber=@phonenumber,address=@address,city=@city,country=@country,email=@email where username=@smth";
+                SqlCommand com = new SqlCommand(sql, con);
+                com.Parameters.AddWithValue("@smth", username);
+                com.Parameters.AddWithValue("@password", password_.Text);
+                com.Parameters.AddWithValue("@namesurname", nameSurname_.Text);
+                com.Parameters.AddWithValue("@phonenumber", phoneNumber_.Text);
+                com.Parameters.AddWithValue("@address", address_.Text);
+                com.Parameters.AddWithValue("@city", city_.Text);
+                com.Parameters.AddWithValue("@country", country_.Text);
+                com.Parameters.AddWithValue("@email", email_.Text);
+                com.ExecuteNonQuery();
+                con.Close();
 
-            //foreach (XmlNode node in d.SelectNodes("Kullanıcılar/person"))
-            //{
-            //    if (node.SelectSingleNode("username").InnerText == username)
-            //    {
+                ListAllUsers l = new ListAllUsers();
+                l.Show();
+                this.Close();
+            
 
-            //        node.SelectSingleNode("password").InnerText = getHashSha256(password_.Text);
-            //        node.SelectSingleNode("Name-Surname").InnerText = nameSurname_.Text;
-            //        node.SelectSingleNode("PhoneNumber").InnerText = phoneNumber_.Text;
-            //        node.SelectSingleNode("Address").InnerText = address_.Text;
-            //        node.SelectSingleNode("City").InnerText = city_.Text;
-            //        node.SelectSingleNode("Country").InnerText = country_.Text;
-            //        node.SelectSingleNode("E-mail").InnerText = email_.Text;
-            //        d.Save(@Directory.GetCurrentDirectory() + "//document.xml");
-            //    }
-            //}
-            ListAllUsers l = new ListAllUsers();
-            l.Show();
-            this.Close();
+            
         }
 
         private void Delete_Click(object sender, EventArgs e)
         {
             SqlConnection con = new SqlConnection(conString);
             con.Open();
-            string sql = "delete Table_1 where username=@smth";
-            SqlCommand com = new SqlCommand(sql, con);
-            com.Parameters.AddWithValue("@smth", username);
-            com.ExecuteNonQuery();
-            con.Close();
-            ListAllUsers l = new ListAllUsers();
-            l.Show();
-            this.Close();
+            var select = "SELECT * FROM Table_1 where username=@us";
+
+            SqlParameter prm1 = new SqlParameter("@us", username.Trim());
+            SqlCommand komut = new SqlCommand(select, con);
+            komut.Parameters.Add(prm1);
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(komut);
+            da.Fill(dt);
+            string a = dt.Rows[0][1].ToString();
+            if (a == password_.Text.Trim())
+            {
+                string sql = "delete Table_1 where username=@smth";
+                SqlCommand com = new SqlCommand(sql, con);
+                com.Parameters.AddWithValue("@smth", username);
+                com.ExecuteNonQuery();
+                con.Close();
+                ListAllUsers l = new ListAllUsers();
+                l.Show();
+                this.Close();
+            }
+            else
+                MessageBox.Show("password is incorrect");
             //XmlDocument doc = new XmlDocument();
             //doc.Load(Directory.GetCurrentDirectory() + "//document.xml");
             //foreach (XmlNode node in doc.SelectNodes("Kullanıcılar/person"))

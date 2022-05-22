@@ -23,6 +23,7 @@ namespace WindowsFormsApp_oop2_Lab
         public string conString = "Data Source=DESKTOP-M5UOMRR\\SQLEXPRESS;Initial Catalog=users;Integrated Security=True";
          private void ListAllUsers_Load(object sender, EventArgs e)
         {
+            
             var select = "SELECT * FROM Table_1";
             var c = new SqlConnection(conString); // Your Connection String here
             var dataAdapter = new SqlDataAdapter(select, c);
@@ -33,6 +34,7 @@ namespace WindowsFormsApp_oop2_Lab
             Tablo.ReadOnly = true;
             ds.Tables[0].Columns.Remove(ds.Tables[0].Columns[1]);
             Tablo.DataSource = ds.Tables[0];
+            
         }
 
         private void exit_Click(object sender, EventArgs e)
@@ -67,6 +69,11 @@ namespace WindowsFormsApp_oop2_Lab
         private void Tablo_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Tablo.Sort(this.Tablo.Columns["bestscore"], ListSortDirection.Descending);
         }
     }
 }

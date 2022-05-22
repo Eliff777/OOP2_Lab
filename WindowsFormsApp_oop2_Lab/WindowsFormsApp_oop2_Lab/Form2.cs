@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using System.Timers;
 using System.Data.SqlClient;
 using System.Data;
+using System.Media;
 namespace WindowsFormsApp_oop2_Lab
 {
     public partial class Form2 : Form
@@ -231,9 +232,9 @@ namespace WindowsFormsApp_oop2_Lab
                         {
                             while ((butonlar[i, j].Name.Substring(0, 2) == butonlar[i, j + 1].Name.Substring(0, 2)) && j + 2 != butonlar.GetLength(1))
                             {
-                                MessageBox.Show(butonlar[i, j + 2].Name);
-                                if (butonlar[i, j + 2].BackgroundImage == null)
-                                    MessageBox.Show("NULL");
+                                //MessageBox.Show(butonlar[i, j + 2].Name);
+                                //if (butonlar[i, j + 2].BackgroundImage == null)
+                                //    MessageBox.Show("NULL");
                                 butonlar[i, j].Name = butonlar[i, j].Name.Substring(butonlar[i, j].Name.Length - 2);
                                 // butonlar[i, j].Name.Remove(0, 2);//  butonlar[i, j].Name = "";
                                 //butonlar[i, j].Text = " ";
@@ -324,7 +325,16 @@ namespace WindowsFormsApp_oop2_Lab
                     
                 else
                 {
-                    secondtime = false;
+                    //System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\elifc\OneDrive\Masaüstü\Yeni klasör (4)\OOP2_Lab\WindowsFormsApp_oop2_Lab\WindowsFormsApp_oop2_Lab\sound\move_sound.wav");
+                    //player.Load();
+                    //player.Play();
+                    //SoundPlayer player = new SoundPlayer(@"C:\Users\elifc\OneDrive\Masaüstü\Yeni klasör (4)\OOP2_Lab\WindowsFormsApp_oop2_Lab\WindowsFormsApp_oop2_Lab\bin\Debug");
+                    ////player.SoundLocation = @"C:\Users\elifc\OneDrive\Masaüstü\Yeni klasör (4)\OOP2_Lab\WindowsFormsApp_oop2_Lab\WindowsFormsApp_oop2_Lab\bin\Debug";
+                    
+                    //player.Stop();
+                    //SystemSounds.Exclamation.Play();
+                    //SystemSounds.Question.Play();
+                   secondtime = false;
                     yoketme();
                     if(puanaldı==false)
                         random_atama(imagelist, butonlar);
@@ -380,7 +390,7 @@ namespace WindowsFormsApp_oop2_Lab
                 //int rowa = rnd.Next(butonlar.GetLength(0));//int rowa = rnd.Next(buttons.GetUpperBound(0));
                 //int column = rnd1.Next(butonlar.GetLength(1));//int column = rnd1.Next(buttons.GetUpperBound(0));
                 var value = buttons[rowa, column];
-                MessageBox.Show(rowa.ToString() + column.ToString() + random_number.ToString());
+                //MessageBox.Show(rowa.ToString() + column.ToString() + random_number.ToString());
 
                 if (value.BackgroundImage == null)
                 {
@@ -512,7 +522,7 @@ namespace WindowsFormsApp_oop2_Lab
                     buttons[i, j].Top = top;
                     buttons[i, j].Name = i.ToString() + j.ToString();
                     buttons[i, j].Click += new EventHandler(this.button_click);
-                    buttons[i, j].MouseMove += new MouseEventHandler(this.mouse_up);
+                    //buttons[i, j].MouseMove += new MouseEventHandler(this.mouse_up);
                     left += 50;
                     buttons[i, j].BackColor = Color.White;
                     this.Controls.Add(buttons[i, j]);
@@ -522,11 +532,11 @@ namespace WindowsFormsApp_oop2_Lab
             }
             return buttons;
         }
-        private void mouse_up(object sender, EventArgs e)
-        {
-            Button btn = sender as Button;
-            btn.Text = btn.Name;
-        }
+        //private void mouse_up(object sender, EventArgs e)
+        //{
+        //    Button btn = sender as Button;
+        //    btn.Text = btn.Name;
+        //}
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form3 form3 = new Form3();
@@ -555,6 +565,12 @@ namespace WindowsFormsApp_oop2_Lab
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Helpscreen h = new Helpscreen();
+            h.Show();
         }
     }
 }
