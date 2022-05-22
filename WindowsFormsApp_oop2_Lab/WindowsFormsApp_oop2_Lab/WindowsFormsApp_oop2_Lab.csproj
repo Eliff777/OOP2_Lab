@@ -77,6 +77,12 @@
     <Compile Include="Form3.Designer.cs">
       <DependentUpon>Form3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpscreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Helpscreen.Designer.cs">
+      <DependentUpon>Helpscreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="ListAllUsers.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +124,9 @@
     <EmbeddedResource Include="Form3.resx">
       <DependentUpon>Form3.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Helpscreen.resx">
+      <DependentUpon>Helpscreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ListAllUsers.resx">
       <DependentUpon>ListAllUsers.cs</DependentUpon>
     </EmbeddedResource>
@@ -151,6 +160,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="move_sound.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
